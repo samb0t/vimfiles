@@ -4,7 +4,8 @@ set nocompatible
 source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
-colorscheme darkblue
+set background=dark
+colorscheme solarized
 set guioptions-=T
 set number
 set fileformats=dos
