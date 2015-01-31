@@ -10,6 +10,9 @@ set guioptions-=T
 set number
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj set filetype=xml
+set relativenumber
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
 if has("win32") || has("win16")
 	set fileformats=dos
 	au GUIEnter * simalt ~x
