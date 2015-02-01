@@ -1,6 +1,8 @@
 execute pathogen#infect()
 call pathogen#helptags()
 set nocompatible
+set ignorecase
+set smartcase
 source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
