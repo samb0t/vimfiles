@@ -6,6 +6,7 @@ source $VIMRUNTIME/mswin.vim
 behave mswin
 set background=dark
 colorscheme solarized
+
 set guioptions-=T
 set number
 set fileformats=dos
