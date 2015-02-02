@@ -12,7 +12,7 @@ colorscheme solarized
 set guioptions-=T
 set number
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
-au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj set filetype=xml
+au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.manifest set filetype=xml
 set relativenumber
 autocmd InsertEnter * :set number
 autocmd InsertLeave * :set relativenumber
