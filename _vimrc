@@ -1,6 +1,8 @@
 execute pathogen#infect()
 call pathogen#helptags()
 set nocompatible
+set ignorecase
+set smartcase
 source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
@@ -9,10 +11,17 @@ colorscheme solarized
 
 set guioptions-=T
 set number
-set fileformats=dos
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj set filetype=xml
-au GUIEnter * simalt ~x
+set relativenumber
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
+if has("win32") || has("win16")
+	set fileformats=dos
+	au GUIEnter * simalt ~x
+else
+	set fileformat=mac
+endif
 
 set diffexpr=MyDiff()
 function MyDiff()
