@@ -10,15 +10,23 @@ set background=dark
 colorscheme solarized
 
 set guioptions-=T
-set number
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
+
+" Filetypes {{{
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.manifest set filetype=xml
+" }}}
+
+" Line numbering {{{
+set number
 set relativenumber
-autocmd InsertEnter * :set number
+autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
+" }}}
+
 if has("win32") || has("win16")
 	set fileformats=dos
 	au GUIEnter * simalt ~x
+	set guifont=consolas:h10:cANSI
 else
 	set fileformat=mac
 endif
@@ -47,4 +55,3 @@ function MyDiff()
   endif
   silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
 endfunction
-
