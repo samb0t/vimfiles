@@ -13,7 +13,7 @@ set guioptions-=T
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 
 " Filetypes {{{
-au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.manifest set filetype=xml
+au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
 " }}}
 
 " Line numbering {{{
