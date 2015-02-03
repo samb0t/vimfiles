@@ -19,16 +19,19 @@ au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest se
 " Line numbering {{{
 set number
 set relativenumber
-autocmd InsertEnter * :set norelativenumber
-autocmd InsertLeave * :set relativenumber
-" }}}
 
 if has("win32") || has("win16")
 	set fileformats=dos
 	au GUIEnter * simalt ~x
 	set guifont=consolas:h10:cANSI
+	autocmd InsertEnter * :set norelativenumber
+	autocmd InsertLeave * :set relativenumber
+" }}}
 else
 	set fileformat=mac
+	autocmd InsertEnter * :set number
+	autocmd InsertLeave * :set relativenumber
+" }}}
 endif
 
 set diffexpr=MyDiff()
