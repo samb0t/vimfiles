@@ -26,11 +26,14 @@ if has("win32") || has("win16")
 	set guifont=consolas:h10:cANSI
 	autocmd InsertEnter * :set norelativenumber
 	autocmd InsertLeave * :set relativenumber
-" }}}
+	let $vimfiles = '~\vimfiles'
+	let $rec = 'c:\sofodev\mediasite\main\applications\recorder2'
+	let $recui = 'c:\sofodev\mediasite\main\server\mediasiteroot\mediasiteroot\areas\recorder'
 else
 	set fileformat=mac
 	autocmd InsertEnter * :set number
 	autocmd InsertLeave * :set relativenumber
+	let $vimfiles = '~/.vim'
 " }}}
 endif
 
