@@ -9,7 +9,7 @@ behave mswin
 set background=dark
 colorscheme solarized
 
-set guioptions-=T
+set guioptions-=T "remove toolbar
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 
 " Filetypes {{{
@@ -23,6 +23,7 @@ set relativenumber
 if has("win32") || has("win16")
 	set fileformats=dos
 	au GUIEnter * simalt ~x
+	set guioptions-=m  "remove menu bar
 	set guifont=consolas:h10:cANSI
 	autocmd InsertEnter * :set norelativenumber
 	autocmd InsertLeave * :set relativenumber
