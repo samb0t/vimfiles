@@ -11,6 +11,7 @@ colorscheme solarized
 
 set guioptions-=T "remove toolbar
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
+set nobomb "remove byte order mark
 
 " Filetypes {{{
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
