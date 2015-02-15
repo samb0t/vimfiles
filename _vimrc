@@ -3,10 +3,10 @@ call pathogen#helptags()
 set nocompatible
 set ignorecase
 set smartcase
+set background=dark
 source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
-set background=dark
 colorscheme solarized
 
 set guioptions-=T "remove toolbar
