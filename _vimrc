@@ -20,6 +20,7 @@ au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest se
 " Line numbering {{{
 set number
 set relativenumber
+" }}}
 
 if has("win32") || has("win16")
 	set fileformats=dos
@@ -36,7 +37,6 @@ else
 	autocmd InsertEnter * :set number
 	autocmd InsertLeave * :set relativenumber
 	let $vimfiles = '~/.vim'
-" }}}
 endif
 
 set diffexpr=MyDiff()
