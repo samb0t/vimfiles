@@ -20,9 +20,6 @@
 [submodule "bundle/vim-lilypond-integrator"]
 	path = bundle/vim-lilypond-integrator
 	url = https://github.com/gisraptor/vim-lilypond-integrator.git
-[submodule ".\\bundle\\vim-forcedotcom"]
-	path = .\\bundle\\vim-forcedotcom
-	url = https://github.com/ejholmes/vim-forcedotcom.git
 [submodule "bundle/vim-forcedotcom"]
 	path = bundle/vim-forcedotcom
 	url = https://github.com/ejholmes/vim-forcedotcom.git
