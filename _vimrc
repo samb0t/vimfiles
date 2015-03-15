@@ -5,8 +5,6 @@ set ignorecase
 set smartcase
 set background=dark
 source $VIMRUNTIME/vimrc_example.vim
-source $VIMRUNTIME/mswin.vim
-behave mswin
 colorscheme solarized
 
 set guioptions-=T "remove toolbar
@@ -31,7 +29,9 @@ if has("win32") || has("win16")
 	set guifont=consolas:h10:cANSI
 	autocmd InsertEnter * :set norelativenumber
 	autocmd InsertLeave * :set relativenumber
-	let skip_loading_mswin=1
+	let g:skip_loading_mswin=1 " turn this off if you really want awful windows ctrl bindings
+	source $VIMRUNTIME/mswin.vim
+	behave mswin
 	let $vimfiles = '~\vimfiles'
 	let $rec = 'c:\sofodev\mediasite\main\applications\recorder2'
 	let $recui = 'c:\sofodev\mediasite\main\server\mediasiteroot\mediasiteroot\areas\recorder'
