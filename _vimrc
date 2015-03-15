@@ -8,6 +8,7 @@ source $VIMRUNTIME/vimrc_example.vim
 source $VIMRUNTIME/mswin.vim
 behave mswin
 colorscheme solarized
+
 set guioptions-=T "remove toolbar
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set nobomb "remove byte order mark
@@ -30,6 +31,7 @@ if has("win32") || has("win16")
 	set guifont=consolas:h10:cANSI
 	autocmd InsertEnter * :set norelativenumber
 	autocmd InsertLeave * :set relativenumber
+	let skip_loading_mswin=1
 	let $vimfiles = '~\vimfiles'
 	let $rec = 'c:\sofodev\mediasite\main\applications\recorder2'
 	let $recui = 'c:\sofodev\mediasite\main\server\mediasiteroot\mediasiteroot\areas\recorder'
