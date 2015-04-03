@@ -15,6 +15,7 @@ nmap cp :let @* = expand("%")<CR>
 
 " Filetypes {{{
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
+au BufRead,BufNewFile *.md set filetype=markdown
 " }}}
 
 " Line numbering {{{
