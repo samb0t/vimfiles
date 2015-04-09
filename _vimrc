@@ -4,6 +4,8 @@ set nocompatible
 set ignorecase
 set smartcase
 set background=dark
+"set encryption to something more secure. pkzip is default.
+set cm=blowfish
 source $VIMRUNTIME/vimrc_example.vim
 colorscheme solarized
 
@@ -12,6 +14,13 @@ set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set nobomb "remove byte order mark
 "copies current filename to clipboard
 nmap cp :let @* = expand("%")<CR>
+let mapleader=","
+
+" WindowMgmt {{{
+set winminheight=0
+nmap <Leader>j <C-w>j<C-w>_
+nmap <Leader>k <C-w>k<C-w>_
+"}}}
 
 " Filetypes {{{
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
@@ -36,6 +45,8 @@ if has("win32") || has("win16")
 	let $vimfiles = '~\vimfiles'
 	let $rec = 'c:\sofodev\mediasite\main\applications\recorder2'
 	let $recui = 'c:\sofodev\mediasite\main\server\mediasiteroot\mediasiteroot\areas\recorder'
+	let $ts = '~\Dropbox\AutoSync\Tagspaces'
+	let $sites = 'c:\webdevstreams\SonicFoundry\Site'
 else
 	set fileformat=mac
 	autocmd InsertEnter * :set number
