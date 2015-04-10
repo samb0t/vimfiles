@@ -14,7 +14,7 @@ set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set nobomb "remove byte order mark
 "copies current filename to clipboard
 nmap cp :let @* = expand("%")<CR>
-let mapleader=","
+let mapleader=";"
 
 " WindowMgmt {{{
 set winminheight=0
@@ -25,6 +25,7 @@ nmap <Leader>k <C-w>k<C-w>_
 " Filetypes {{{
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
 au BufRead,BufNewFile *.md set filetype=markdown
+au BufRead,BufNewFile *.cshtml set filetype=html
 " }}}
 
 " Line numbering {{{
