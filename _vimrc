@@ -12,9 +12,10 @@ colorscheme solarized
 set guioptions-=T "remove toolbar
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set nobomb "remove byte order mark
-"copies current filename to clipboard
-nmap cp :let @* = expand("%")<CR>
+
 let mapleader=";"
+"copies current filename to clipboard
+nmap <Leader>p :let @* = expand("%")<CR>
 
 " WindowMgmt {{{
 set winminheight=0
