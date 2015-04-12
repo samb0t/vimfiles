@@ -32,12 +32,6 @@ let mapleader=";"
 nmap <Leader>p :let @* = expand("%")<CR>
 " }}}
 
-" WindowMgmt {{{
-set winminheight=0
-nmap <Leader>j <C-w>j<C-w>_
-nmap <Leader>k <C-w>k<C-w>_
-"}}}
-
 " Filetypes {{{
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
 au BufRead,BufNewFile *.md set filetype=markdown
@@ -83,6 +77,36 @@ set backupdir=~/.vimbackups//
 set directory=~/.vimbackups//
 set undodir=~/.vimbackups//
 " }}}
+
+" WindowMgmt {{{
+" Rolodex split windows; Maximize up/down
+set winminheight=0
+nmap <Leader>j <C-w>j<C-w>_
+nmap <Leader>k <C-w>k<C-w>_
+
+" Maximize (:only) with Save/Restore split configuration: {{{
+" http://vim.wikia.com/wiki/Maximize_window_and_return_to_previous_split_structure
+nnoremap <C-W>O :call MaximizeToggle()<CR>
+nnoremap <C-W>o :call MaximizeToggle()<CR>
+nnoremap <C-W><C-O> :call MaximizeToggle()<CR>
+
+function! MaximizeToggle()
+  if exists("s:maximize_session")
+    exec "source " . s:maximize_session
+    call delete(s:maximize_session)
+    unlet s:maximize_session
+    let &hidden=s:maximize_hidden_save
+    unlet s:maximize_hidden_save
+  else
+    let s:maximize_hidden_save = &hidden
+    let s:maximize_session = tempname()
+    set hidden
+    exec "mksession! " . s:maximize_session
+    only
+  endif
+endfunction
+" }}}
+" WindowMgmt }}}
 
 set diffexpr=MyDiff()
 function MyDiff()
