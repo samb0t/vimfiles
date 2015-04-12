@@ -1,21 +1,36 @@
+" Plugins {{{
 execute pathogen#infect()
 call pathogen#helptags()
+" }}}
+
+" LookAndFeel {{{
 set nocompatible
 set ignorecase
 set smartcase
 set background=dark
-"set encryption to something more secure. pkzip is default.
-set cm=blowfish
-source $VIMRUNTIME/vimrc_example.vim
 colorscheme solarized
-
 set guioptions-=T "remove toolbar
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set nobomb "remove byte order mark
+set number
+set relativenumber
+" }}}
 
+" Misc {{{
+"set encryption to something more secure. pkzip is default.
+set cm=blowfish
+source $VIMRUNTIME/vimrc_example.vim
+" }}}
+
+" FileIO {{{
+set nobackup
+" }}}
+
+" LeaderMappings {{{
 let mapleader=";"
 "copies current filename to clipboard
 nmap <Leader>p :let @* = expand("%")<CR>
+" }}}
 
 " WindowMgmt {{{
 set winminheight=0
@@ -29,13 +44,13 @@ au BufRead,BufNewFile *.md set filetype=markdown
 au BufRead,BufNewFile *.cshtml set filetype=html
 " }}}
 
-" Line numbering {{{
-set number
-set relativenumber
-" }}}
-
 if has("win32") || has("win16")
+	" FileIOWin {{{
+	if !isdirectory($HOME . "\.vimbackups")
+		call mkdir($HOME . "\.vimbackups", "p", 0700)
+	endif
 	set fileformats=dos
+	" }}}
 	au GUIEnter * simalt ~x
 	set guioptions-=m  "remove menu bar
 	set guifont=consolas:h10:cANSI
@@ -50,11 +65,24 @@ if has("win32") || has("win16")
 	let $ts = '~\Dropbox\AutoSync\Tagspaces'
 	let $sites = 'c:\webdevstreams\SonicFoundry\Site'
 else
+	" FileIOXnix {{{
+	if !isdirectory($HOME . "/.vimbackups")
+		call mkdir($HOME . "/.vimbackups", "p", 0700)
+	endif
+	" }}}
 	set fileformat=mac
 	autocmd InsertEnter * :set number
 	autocmd InsertLeave * :set relativenumber
 	let $vimfiles = '~/.vim'
+	let $ts = '~/Dropbox/AutoSync/Tagspaces'
 endif
+
+" BackupLocation {{{
+" set backupdir is a no-op if set nobackup
+set backupdir=~/.vimbackups//
+set directory=~/.vimbackups//
+set undodir=~/.vimbackups//
+" }}}
 
 set diffexpr=MyDiff()
 function MyDiff()
