@@ -46,8 +46,8 @@ au BufRead,BufNewFile *.cshtml set filetype=html
 
 if has("win32") || has("win16")
 	" FileIOWin {{{
-	if !isdirectory($HOME . "\.vimbackups")
-		call mkdir($HOME . "\.vimbackups", "p", 0700)
+	if !isdirectory($HOME . "\\.vimbackups")
+		call mkdir($HOME . "\\.vimbackups", "p", 0700)
 	endif
 	set fileformats=dos
 	" }}}
