@@ -35,3 +35,12 @@
 [submodule "tabular"]
 	path = bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
+[submodule "bundle/vim-dispatch"]
+	path = bundle/vim-dispatch
+	url = https://github.com/tpope/vim-dispatch.git
+[submodule "bundle/omnisharp-vim"]
+	path = bundle/omnisharp-vim
+	url = https://github.com/OmniSharp/omnisharp-vim.git
+[submodule "bundle/unite.vim"]
+	path = bundle/unite.vim
+	url = https://github.com/Shougo/unite.vim.git

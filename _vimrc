@@ -108,6 +108,81 @@ endfunction
 " }}}
 " WindowMgmt }}}
 
+" Unite {{{
+
+" (see http://usevim.com/2013/06/19/unite/)
+" Also, http://bling.github.io/blog/2013/06/02/unite-dot-vim-the-plugin-you-didnt-know-you-need/
+
+" search file dir and immediately fuzzy find
+nnoremap <Leader>f :Unite -start-insert file_rec<CR>
+
+" search yank history
+let g:unite_source_history_yank_enable = 1
+nnoremap <Leader>y :Unite history/yank<cr>
+
+" quick buffer switching
+nnoremap <Leader>b :Unite -quick-match buffer<cr>
+
+" Unite }}}
+
+" OmniSharp (Most from https://github.com/OmniSharp/omnisharp-vim examples) {{{
+" Code documentation to be split below rather than above
+set splitbelow
+
+augroup omnisharp_commands
+
+	autocmd!
+
+	"run vim-dispatch builds async
+	autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
+	"keep VS bindings for muscle memory
+	autocmd FileType cs nnoremap <F6> :wa!<cr>:OmniSharpBuildAsync<cr>
+	" Automatically add new cs files to the nearest project on save
+	autocmd BufWritePost *.cs call OmniSharp#AddToProject()
+	"show type information automatically when the cursor stops moving
+	autocmd CursorHold *.cs call OmniSharp#TypeLookupWithoutDocumentation()
+
+	"The following commands are contextual, based on the current cursor position.
+
+	autocmd FileType cs nnoremap gd :OmniSharpGotoDefinition<cr>
+	autocmd FileType cs nnoremap <F12> :OmniSharpGotoDefinition<cr>
+	autocmd FileType cs nnoremap <leader>fi :OmniSharpFindImplementations<cr>
+	autocmd FileType cs nnoremap <leader>ft :OmniSharpFindType<cr>
+	autocmd FileType cs nnoremap <leader>fs :OmniSharpFindSymbol<cr>
+	autocmd FileType cs nnoremap <leader>fu :OmniSharpFindUsages<cr>
+	autocmd FileType cs nnoremap <C-k>r :OmniSharpFindUsages<cr>
+	"finds members in the current buffer
+	autocmd FileType cs nnoremap <leader>fm :OmniSharpFindMembers<cr>
+	" cursor can be anywhere on the line containing an issue
+	autocmd FileType cs nnoremap <leader>x  :OmniSharpFixIssue<cr>
+	autocmd FileType cs nnoremap <leader>fx :OmniSharpFixUsings<cr>
+	autocmd FileType cs nnoremap <leader>tt :OmniSharpTypeLookup<cr>
+	autocmd FileType cs nnoremap <leader>dc :OmniSharpDocumentation<cr>
+	autocmd FileType cs nnoremap <F1> :OmniSharpDocumentation<cr>
+
+augroup END
+
+" Contextual code actions (requires CtrlP or unite.vim)
+nnoremap <leader><space> :OmniSharpGetCodeActions<cr>
+" Run code actions with text selected in visual mode to extract method
+vnoremap <leader><space> :call OmniSharp#GetCodeActions('visual')<cr>
+
+" rename with dialog
+nnoremap <leader>nm :OmniSharpRename<cr>
+nnoremap <F2> :OmniSharpRename<cr>
+
+" Force OmniSharp to reload the solution. Useful when switching branches etc.
+nnoremap <leader>rl :OmniSharpReloadSolution<cr>
+nnoremap <leader>cf :OmniSharpCodeFormat<cr>
+" Load the current .cs file to the nearest project
+
+nnoremap <leader>tp :OmniSharpAddToProject<cr>
+
+"Don't ask to save when changing buffers (i.e. when jumping to a type definition)
+set hidden
+
+" OmniSharp }}}
+
 set diffexpr=MyDiff()
 function MyDiff()
   let opt = '-a --binary '
