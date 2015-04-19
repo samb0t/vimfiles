@@ -178,6 +178,12 @@ nnoremap <leader>cf :OmniSharpCodeFormat<cr>
 
 nnoremap <leader>tp :OmniSharpAddToProject<cr>
 
+" Synchronous build (blocks Vim)
+"autocmd FileType cs nnoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
+" Builds can also run asynchronously with vim-dispatch installed
+autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
+autocmd FileType cs nnoremap <F6>b :wa!<cr>:OmniSharpBuildAsync<cr>
+
 "Don't ask to save when changing buffers (i.e. when jumping to a type definition)
 set hidden
 
