@@ -44,3 +44,6 @@
 [submodule "bundle/unite.vim"]
 	path = bundle/unite.vim
 	url = https://github.com/Shougo/unite.vim.git
+[submodule "bundle/vim-csharp"]
+	path = bundle/vim-csharp
+	url = git://github.com/OrangeT/vim-csharp.git

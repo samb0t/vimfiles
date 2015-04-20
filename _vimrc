@@ -24,6 +24,11 @@ source $VIMRUNTIME/vimrc_example.vim
 
 " FileIO {{{
 set nobackup
+" http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
+autocmd BufEnter * silent! lcd %:p:h
+" http://vim.wikia.com/wiki/Find_in_files_within_Vim
+" Search for word under cursor in subdirectories
+map <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 " }}}
 
 " LeaderMappings {{{
@@ -183,6 +188,10 @@ nnoremap <leader>tp :OmniSharpAddToProject<cr>
 " Builds can also run asynchronously with vim-dispatch installed
 autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
 autocmd FileType cs nnoremap <F6>b :wa!<cr>:OmniSharpBuildAsync<cr>
+
+" (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
+nnoremap <leader>ss :OmniSharpStartServer<cr>
+nnoremap <leader>sp :OmniSharpStopServer<cr>
 
 "Don't ask to save when changing buffers (i.e. when jumping to a type definition)
 set hidden
