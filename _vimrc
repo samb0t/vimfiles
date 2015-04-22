@@ -34,7 +34,9 @@ map <Leader>ed :e %:h<CR>
 " Open vimgrep and put the cursor in the right position
 map <leader>g :vimgrep // %:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 "copies current filepath to clipboard
-nmap <Leader>p :let @* = expand("%:p")<CR>
+nmap <Leader>pa :let @* = expand("%:p")<CR>
+"open current file for edit in p4
+map <Leader>p4 :!p4 -c samb_webdevstreams edit %<CR>
 " }}}
 
 " LeaderMappings {{{
