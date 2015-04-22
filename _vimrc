@@ -29,12 +29,16 @@ autocmd BufEnter * silent! lcd %:p:h
 " http://vim.wikia.com/wiki/Find_in_files_within_Vim
 " Search for word under cursor in subdirectories
 map <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+" edit file's current directory
+map <Leader>ed :e %:h<CR>
+" Open vimgrep and put the cursor in the right position
+map <leader>g :vimgrep // %:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+"copies current filepath to clipboard
+nmap <Leader>p :let @* = expand("%:p")<CR>
 " }}}
 
 " LeaderMappings {{{
 let mapleader=";"
-"copies current filename to clipboard
-nmap <Leader>p :let @* = expand("%")<CR>
 " }}}
 
 " Filetypes {{{
