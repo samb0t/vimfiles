@@ -47,3 +47,6 @@
 [submodule "bundle/vim-csharp"]
 	path = bundle/vim-csharp
 	url = git://github.com/OrangeT/vim-csharp.git
+[submodule "bundle/vim-gotham"]
+	path = bundle/vim-gotham
+	url = https://github.com/whatyouhide/vim-gotham.git

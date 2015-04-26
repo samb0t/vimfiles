@@ -8,7 +8,7 @@ set nocompatible
 set ignorecase
 set smartcase
 set background=dark
-colorscheme solarized
+colorscheme gotham
 set guioptions-=T "remove toolbar
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set nobomb "remove byte order mark
