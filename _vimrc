@@ -1,9 +1,14 @@
+" LeaderMappings {{{
+let mapleader=";"
+" }}}
+
 " Plugins {{{
 execute pathogen#infect()
 call pathogen#helptags()
 " }}}
 
 " LookAndFeel {{{
+filetype plugin on
 syntax on
 set hlsearch
 " allow backspacing over everything in insert mode
@@ -47,10 +52,6 @@ nmap <Leader>pa :let @* = expand("%:p")<CR>
 nmap <Leader>yf gg"*yG
 "open current file for edit in p4
 map <Leader>p4 :!p4 -c samb_webdevstreams edit %<CR>
-" }}}
-
-" LeaderMappings {{{
-let mapleader=";"
 " }}}
 
 " Filetypes {{{
