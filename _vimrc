@@ -4,11 +4,15 @@ call pathogen#helptags()
 " }}}
 
 " LookAndFeel {{{
+syntax on
+set hlsearch
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
 set nocompatible
 set ignorecase
 set smartcase
 set background=dark
-colorscheme gotham
+colorscheme solarized
 set guioptions-=T "remove toolbar
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set nobomb "remove byte order mark
@@ -16,10 +20,13 @@ set number
 set relativenumber
 " }}}
 
+" Snips {{{
+inoremap {<CR> {<CR>}<Esc>ko
+" }}}
+
 " Misc {{{
-"set encryption to something more secure. pkzip is default.
+"set encryption to something more secure. pkzip is default
 set cm=blowfish
-source $VIMRUNTIME/vimrc_example.vim
 " }}}
 
 " FileIO {{{
@@ -32,9 +39,12 @@ map <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 " edit file's current directory
 map <Leader>ed :e %:h<CR>
 " Open vimgrep and put the cursor in the right position
-map <leader>g :vimgrep // %:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+map <leader>gd :vimgrep // %:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+map <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left>
 "copies current filepath to clipboard
 nmap <Leader>pa :let @* = expand("%:p")<CR>
+" copy entire file contents to the clipboard
+nmap <Leader>yf gg"*yG
 "open current file for edit in p4
 map <Leader>p4 :!p4 -c samb_webdevstreams edit %<CR>
 " }}}
@@ -47,6 +57,7 @@ let mapleader=";"
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
 au BufRead,BufNewFile *.md set filetype=markdown
 au BufRead,BufNewFile *.cshtml set filetype=html
+au BufRead,BufNewFile *.apxc set filetype=apex
 " }}}
 
 if has("win32") || has("win16")
@@ -193,7 +204,7 @@ nnoremap <leader>tp :OmniSharpAddToProject<cr>
 "autocmd FileType cs nnoremap <F5> :wa!<cr>:OmniSharpBuild<cr>
 " Builds can also run asynchronously with vim-dispatch installed
 autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
-autocmd FileType cs nnoremap <F6>b :wa!<cr>:OmniSharpBuildAsync<cr>
+autocmd FileType cs nnoremap <F6> :wa!<cr>:OmniSharpBuildAsync<cr>
 
 " (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
 nnoremap <leader>ss :OmniSharpStartServer<cr>
@@ -203,28 +214,3 @@ nnoremap <leader>sp :OmniSharpStopServer<cr>
 set hidden
 
 " OmniSharp }}}
-
-set diffexpr=MyDiff()
-function MyDiff()
-  let opt = '-a --binary '
-  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-  let arg1 = v:fname_in
-  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-  let arg2 = v:fname_new
-  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-  let arg3 = v:fname_out
-  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-  let eq = ''
-  if $VIMRUNTIME =~ ' '
-    if &sh =~ '\<cmd'
-      let cmd = '""' . $VIMRUNTIME . '\diff"'
-      let eq = '"'
-    else
-      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-    endif
-  else
-    let cmd = $VIMRUNTIME . '\diff'
-  endif
-  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
-endfunction
