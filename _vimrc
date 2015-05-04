@@ -32,6 +32,8 @@ inoremap {<CR> {<CR>}<Esc>ko
 " Misc {{{
 "set encryption to something more secure. pkzip is default
 set cm=blowfish
+"toggle spellcheck: use z= for suggestions [s ]s for navigation
+map <Leader>sc :set spell! spelllang=en_us<CR>
 " }}}
 
 " FileIO {{{
