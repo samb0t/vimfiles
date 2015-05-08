@@ -133,6 +133,17 @@ endfunction
 " }}}
 " WindowMgmt }}}
 
+" Todo {{{
+" Make todo
+nnoremap <Leader>td i[ ]<space>
+" Mark line as done
+nnoremap <Leader>tx :s/^\(\s*[-+*]\?\s*\)\[ \]/\1[x]/<cr>
+" Mark line as undone
+nnoremap <Leader>tu :s/^\(\s*[-+*]\?\s*\)\[x\]/\1[ ]/<cr>
+" Grep for todos
+nnoremap <Leader>gt :vimgrep /\[ \]/ % <Bar> cw<CR>
+" }}}
+
 " Unite {{{
 
 " (see http://usevim.com/2013/06/19/unite/)
@@ -146,7 +157,7 @@ let g:unite_source_history_yank_enable = 1
 nnoremap <Leader>y :Unite history/yank<cr>
 
 " quick buffer switching
-nnoremap <Leader>b :Unite -quick-match buffer<cr>
+nnoremap <Leader>ls :Unite -quick-match buffer<cr>
 
 " Unite }}}
 
@@ -159,7 +170,7 @@ augroup omnisharp_commands
 	autocmd!
 
 	"run vim-dispatch builds async
-	autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
+	autocmd FileType cs nnoremap <leader>bu :wa!<cr>:OmniSharpBuildAsync<cr>
 	"keep VS bindings for muscle memory
 	autocmd FileType cs nnoremap <F6> :wa!<cr>:OmniSharpBuildAsync<cr>
 	" Automatically add new cs files to the nearest project on save
