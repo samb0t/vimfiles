@@ -33,7 +33,7 @@ inoremap {<CR> {<CR>}<Esc>ko
 "set encryption to something more secure. pkzip is default
 set cm=blowfish
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
-map <Leader>sc :set spell! spelllang=en_us<CR>
+nmap <Leader>sc :set spell! spelllang=en_us<CR>
 " }}}
 
 " FileIO {{{
@@ -42,18 +42,22 @@ set nobackup
 autocmd BufEnter * silent! lcd %:p:h
 " http://vim.wikia.com/wiki/Find_in_files_within_Vim
 " Search for word under cursor in subdirectories
-map <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+nmap <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 " edit file's current directory
-map <Leader>ed :e %:h<CR>
+nmap <Leader>ed :e %:h<CR>
 " Open vimgrep and put the cursor in the right position
-map <leader>gd :vimgrep // %:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-map <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left>
+nmap <leader>gd :vimgrep // %:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+nmap <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left>
 "copies current filepath to clipboard
 nmap <Leader>pa :let @* = expand("%:p")<CR>
 " copy entire file contents to the clipboard
 nmap <Leader>yf gg"*yG
 "open current file for edit in p4
-map <Leader>p4 :!p4 -c samb_webdevstreams edit %<CR>
+nmap <Leader>p4 :!p4 -c samb_webdevstreams edit %<CR>
+"create new line, but remain in normal
+nmap <Leader>o o<ESC>
+"semicolon at end of line
+nmap <Leader>; A;<ESC>
 " }}}
 
 " Filetypes {{{
@@ -137,9 +141,9 @@ endfunction
 " Make todo
 nnoremap <Leader>td i[ ]<space>
 " Mark line as done
-nnoremap <Leader>tx :s/^\(\s*[-+*]\?\s*\)\[ \]/\1[x]/<cr>
+nnoremap <Leader>tx :s/^\(\s*[-+*]\?\s*\)\[ \]/\1[x]/ <Bar> :noh<cr>
 " Mark line as undone
-nnoremap <Leader>tu :s/^\(\s*[-+*]\?\s*\)\[x\]/\1[ ]/<cr>
+nnoremap <Leader>tu :s/^\(\s*[-+*]\?\s*\)\[x\]/\1[ ]/ <Bar> :noh<cr>
 " Grep for todos
 nnoremap <Leader>gt :vimgrep /\[ \]/ % <Bar> cw<CR>
 " }}}
