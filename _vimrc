@@ -7,7 +7,7 @@ execute pathogen#infect()
 call pathogen#helptags()
 " }}}
 
-" LookAndFeel {{{
+" Look and feel {{{
 filetype plugin on
 syntax on
 set hlsearch
@@ -24,6 +24,7 @@ set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set nobomb "remove byte order mark
 set number
 set relativenumber
+set foldmethod=marker
 " }}}
 
 " Snips {{{
@@ -68,6 +69,7 @@ au BufRead,BufNewFile *.cshtml set filetype=html
 au BufRead,BufNewFile *.apxc set filetype=apex
 " }}}
 
+" OS Specific {{{
 if has("win32") || has("win16")
 	" FileIOWin {{{
 	if !isdirectory($HOME . "\\.vimbackups")
@@ -100,6 +102,7 @@ else
 	let $vimfiles = '~/.vim'
 	let $ts = '~/Dropbox/AutoSync/Tagspaces'
 endif
+" }}}
 
 " BackupLocation {{{
 " set backupdir is a no-op if set nobackup
