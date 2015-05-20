@@ -50,3 +50,7 @@
 [submodule "bundle/vim-gotham"]
 	path = bundle/vim-gotham
 	url = https://github.com/whatyouhide/vim-gotham.git
+[submodule "bundle/vim-force.com"]
+	path = bundle/vim-force.com
+	url = https://github.com/neowit/vim-force.com.git
+	ignore = dirty

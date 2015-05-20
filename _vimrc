@@ -13,6 +13,7 @@ syntax on
 set hlsearch
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
+set autoindent
 set nocompatible
 set ignorecase
 set smartcase
@@ -26,7 +27,7 @@ set relativenumber
 " }}}
 
 " Snips {{{
-inoremap {<CR> {<CR>}<Esc>ko
+inoremap {<CR> {<CR>}<Esc>ko<Tab>
 " }}}
 
 " Misc {{{
@@ -232,3 +233,23 @@ nnoremap <leader>sp :OmniSharpStopServer<cr>
 set hidden
 
 " OmniSharp }}}
+
+" vim-force.com {{{
+" see :help force.com
+" requires JRE, tooling-force.com, sbt, UnxUtils (Just tee.exe/touch.exe)
+if has ("win32")
+	let g:apex_backup_folder = 'C:\bin\sfdc\backups\'
+	let g:apex_temp_folder = 'C:\bin\temp'
+	let g:apex_properties_folder = 'C:\bin\sfdc\properties\'
+	let g:apex_tooling_force_dot_com_path = 'C:\bin\sfdc\tooling-force.com-0.3.3.0.jar'
+	let g:apex_binary_tee = 'C:\bin\UnxUtils\tee.exe'
+	let g:apex_binary_touch = 'C:\bin\UnxUtils\touch.exe'
+	let g:apex_workspace_path = 'C:\bin\sfdc\workspace\'
+else
+	let g:apex_backup_folder = '/bin/sfdc/backups/'
+	let g:apex_temp_folder = '/bin/temp'
+	let g:apex_properties_folder = '/bin/sfdc/properties/'
+	let g:apex_tooling_force_dot_com_path = '/bin/sfdc/tooling-force.com-0.3.3.0.jar'
+	let g:apex_workspace_path = '/bin/sfdc/workspace/'
+endif
+" }}}
