@@ -58,8 +58,11 @@ nmap <Leader>yf gg"*yG
 nmap <Leader>p4 :!p4 -c samb_webdevstreams edit %<CR>
 "create new line, but remain in normal
 nmap <Leader>o o<ESC>
+nmap <Leader>O O<ESC>
 "semicolon at end of line
 nmap <Leader>; A;<ESC>
+"shortcut for using the built-in :make
+nnoremap <F5> :w<CR> :silent make<CR>
 " }}}
 
 " Filetypes {{{
@@ -255,4 +258,18 @@ else
 	let g:apex_tooling_force_dot_com_path = '/bin/sfdc/tooling-force.com-0.3.3.0.jar'
 	let g:apex_workspace_path = '/bin/sfdc/workspace/'
 endif
+" }}}
+
+" PlantUML {{{
+if has ("win32")
+	let g:plantuml_executable_script = 'java -jar C:\bin\java\plantuml.jar'
+else
+	let g:plantuml_executable_script = 'java -jar /bin/java/plantuml.jar'
+endif
+" these two lines are in the plugin but weren't working for some reason
+" so I put them here.
+" pathogen infect order? work on putting this at the end.
+let s:makecommand=g:plantuml_executable_script." %"
+autocmd Filetype plantuml let &l:makeprg=s:makecommand
+au BufWritePost *.uml :silent make %
 " }}}
