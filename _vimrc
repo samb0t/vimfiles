@@ -2,11 +2,6 @@
 let mapleader=";"
 " }}}
 
-" Plugins {{{
-execute pathogen#infect()
-call pathogen#helptags()
-" }}}
-
 " Look and feel {{{
 filetype plugin on
 syntax on
@@ -18,13 +13,11 @@ set nocompatible
 set ignorecase
 set smartcase
 set background=dark
-colorscheme solarized
 set guioptions-=T "remove toolbar
 set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
 set nobomb "remove byte order mark
 set number
 set relativenumber
-set foldmethod=marker
 " }}}
 
 " Snips {{{
@@ -148,9 +141,9 @@ endfunction
 " Make todo
 nnoremap <Leader>td i[ ]<space>
 " Mark line as done
-nnoremap <Leader>tx :s/^\(\s*[-+*]\?\s*\)\[ \]/\1[x]/ <Bar> :noh<cr>
+nnoremap <Leader>tx :s/\(\s*[-+*]\?\s*\)\[ \]/\1[x]/ <Bar> :noh<cr>
 " Mark line as undone
-nnoremap <Leader>tu :s/^\(\s*[-+*]\?\s*\)\[x\]/\1[ ]/ <Bar> :noh<cr>
+nnoremap <Leader>tu :s/\(\s*[-+*]\?\s*\)\[x\]/\1[ ]/ <Bar> :noh<cr>
 " Grep for todos
 nnoremap <Leader>gt :vimgrep /\[ \]/ % <Bar> cw<CR>
 " }}}
@@ -266,10 +259,16 @@ if has ("win32")
 else
 	let g:plantuml_executable_script = 'java -jar /bin/java/plantuml.jar'
 endif
-" these two lines are in the plugin but weren't working for some reason
-" so I put them here.
-" pathogen infect order? work on putting this at the end.
-let s:makecommand=g:plantuml_executable_script." %"
-autocmd Filetype plantuml let &l:makeprg=s:makecommand
 au BufWritePost *.uml :silent make %
 " }}}
+
+" Plugins {{{
+call pathogen#infect()
+call pathogen#helptags()
+" }}}
+
+" Post-pathogen infect {{{
+colorscheme solarized
+" }}}
+
+" vim:fdm=marker
