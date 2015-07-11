@@ -49,6 +49,7 @@ nmap <Leader>pa :let @* = expand("%:p")<CR>
 nmap <Leader>yf gg"*yG
 "open current file for edit in p4
 nmap <Leader>p4 :!p4 -c samb_webdevstreams edit %<CR>
+nmap <Leader>p4a :!p4 -c samb_webdevstreams add %<CR>
 "create new line, but remain in normal
 nmap <Leader>o o<ESC>
 nmap <Leader>O O<ESC>
@@ -136,6 +137,11 @@ function! MaximizeToggle()
 endfunction
 " }}}
 " WindowMgmt }}}
+"
+" Functions {{{
+" Convert markdown to Confluence-style markdown. Not complete yet.;;;;
+nmap <Leader>con :%s/^####/h4./e <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> g/^\d/norm O <CR>
+" }}}
 
 " Todo {{{
 " Make todo
@@ -268,7 +274,9 @@ call pathogen#helptags()
 " }}}
 
 " Post-pathogen infect {{{
-colorscheme solarized
+colorscheme wombat256mod
+" Airline - add 'indent' to track mixed indentation
+let g:airline#extensions#whitespace#checks = [ 'trailing' ]
 " }}}
 
 " vim:fdm=marker
