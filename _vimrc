@@ -139,7 +139,7 @@ endfunction
 " WindowMgmt }}}
 "
 " Functions {{{
-" Convert markdown to Confluence-style markdown. Not complete yet.;;;;
+" Convert markdown to Confluence-style markdown. Not complete yet.
 nmap <Leader>con :%s/^####/h4./e <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> g/^\d/norm O <CR>
 " }}}
 
