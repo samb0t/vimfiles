@@ -39,6 +39,22 @@ nmap <Leader>sc :set spell! spelllang=en_us<CR>
 set nobackup
 " http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
 autocmd BufEnter * silent! lcd %:p:h
+" grep open buffers function
+function! BuffersList()
+  let all = range(0, bufnr('$'))
+  let res = []
+  for b in all
+    if buflisted(b)
+      call add(res, bufname(b))
+    endif
+  endfor
+  return res
+endfunction
+function! GrepBuffers (expression)
+  exec 'vimgrep/'.a:expression.'/ '.join(BuffersList())
+endfunction
+nmap <Leader>gb :call GrepBuffers("") <Bar> cw<Left><Left><Left><Left><Left><Left><Left>
+
 " http://vim.wikia.com/wiki/Find_in_files_within_Vim
 " Search for word under cursor in subdirectories
 nmap <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
@@ -274,7 +290,6 @@ au BufWritePost *.uml :silent make %
 
 " LESS {{{
 "requires node.js and lessc
-"todo: figure out best way to p4 edit first if the file is read-only
 function CompileLess()
 	execute ":silent !p4 -c " . g:p4w . " edit *.css *.map"
 	:!lessc % %:t:r.css --source-map=%:t:r.css.map
