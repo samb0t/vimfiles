@@ -1,3 +1,7 @@
+" GlobalVariables {{{
+let g:p4w = "samb_webdevstreams"
+" }}}
+
 " LeaderMappings {{{
 let mapleader=";"
 " }}}
@@ -48,8 +52,8 @@ nmap <Leader>pa :let @* = expand("%:p")<CR>
 " copy entire file contents to the clipboard
 nmap <Leader>yf gg"*yG
 "open current file for edit in p4
-nmap <Leader>p4 :!p4 -c samb_webdevstreams edit %<CR>
-nmap <Leader>p4a :!p4 -c samb_webdevstreams add %<CR>
+nmap <Leader>p4 :execute "!p4 -c " . g:p4w . " edit %"<CR>
+nmap <Leader>p4a :execute "!p4 -c " . g:p4w . " add %"<CR>
 "create new line, but remain in normal
 nmap <Leader>o o<ESC>
 nmap <Leader>O O<ESC>
@@ -268,9 +272,24 @@ endif
 au BufWritePost *.uml :silent make %
 " }}}
 
+" LESS {{{
+"requires node.js and lessc
+"todo: figure out best way to p4 edit first if the file is read-only
+function CompileLess()
+	execute ":silent !p4 -c " . g:p4w . " edit *.css *.map"
+	:!lessc % %:t:r.css --source-map=%:t:r.css.map
+	:!lessc % %:t:r.min.css -x
+endfunction
+au BufWritePost *.less call CompileLess()
+" }}}
+
 " Plugins {{{
 call pathogen#infect()
 call pathogen#helptags()
+
+" Load installed MatchIt plugin
+" % to find matching tags in markup
+source $VIMRUNTIME/macros/matchit.vim
 " }}}
 
 " Post-pathogen infect {{{
