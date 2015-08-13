@@ -74,7 +74,7 @@ nmap <Leader>p4a :execute "!p4 -c " . g:p4w . " add %"<CR>
 nmap <Leader>o o<ESC>
 nmap <Leader>O O<ESC>
 "semicolon at end of line
-nmap <Leader>; A;<ESC>
+nmap <Leader>A A;<ESC>
 "shortcut for using the built-in :make
 nnoremap <F5> :w<CR> :silent make<CR>
 " }}}
@@ -161,6 +161,16 @@ endfunction
 " Functions {{{
 " Convert markdown to Confluence-style markdown. Not complete yet.
 nmap <Leader>con :%s/^####/h4./e <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> g/^\d/norm O <CR>
+function MarkdownLevel() 
+	let h = matchstr(getline(v:lnum), '^#\+') 
+	if empty(h)
+		return "="
+	else
+		return ">" . len(h) 
+	endif 
+endfunction
+au BufEnter *.md setlocal foldexpr=MarkdownLevel()
+au BufEnter *.md setlocal foldmethod=expr
 " }}}
 
 " Todo {{{
@@ -285,7 +295,11 @@ if has ("win32")
 else
 	let g:plantuml_executable_script = 'java -jar /bin/java/plantuml.jar'
 endif
-au BufWritePost *.uml :silent make %
+function CompileUml()
+	exe ":silent !p4 -c " . g:p4w . " edit *.png"
+	exe ":silent make %"
+endfunction
+au BufWritePost *.uml call CompileUml()
 " }}}
 
 " LESS {{{
