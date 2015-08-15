@@ -87,6 +87,16 @@ au BufRead,BufNewFile *.apxc set filetype=apex
 " }}}
 
 " OS Specific {{{
+fun! SetRelativeNumber(on)
+	if exists('b:conque_on')
+		return
+	endif
+	if (a:on)
+		exe "set relativenumber"
+	else
+		exe "set norelativenumber"
+	endif
+endfun
 if has("win32") || has("win16")
 	" FileIOWin {{{
 	if !isdirectory($HOME . "\\.vimbackups")
@@ -97,8 +107,8 @@ if has("win32") || has("win16")
 	au GUIEnter * simalt ~x
 	set guioptions-=m  "remove menu bar
 	set guifont=consolas:h10:cANSI
-	autocmd InsertEnter * :set norelativenumber
-	autocmd InsertLeave * :set relativenumber
+	autocmd InsertEnter * call SetRelativeNumber(0)
+	autocmd InsertLeave * call SetRelativeNumber(1)
 	let g:skip_loading_mswin=1 " turn this off if you really want awful windows ctrl bindings
 	source $VIMRUNTIME/mswin.vim
 	behave mswin
@@ -310,6 +320,14 @@ function CompileLess()
 	:!lessc % %:t:r.min.css -x
 endfunction
 au BufWritePost *.less call CompileLess()
+" }}}
+
+" ConqueShell {{{
+let g:ConqueTerm_FastMode = 1
+" conceal isn't doing its job, so just ditch colors for now
+" let g:ConqueTerm_Color = 2
+" let g:ConqueTerm_ColorMode = 'conceal'
+nnoremap <Leader>ps :new<CR>:ConqueTerm powershell <CR>
 " }}}
 
 " Plugins {{{
