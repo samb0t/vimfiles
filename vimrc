@@ -328,6 +328,7 @@ let g:ConqueTerm_FastMode = 1
 " let g:ConqueTerm_Color = 2
 " let g:ConqueTerm_ColorMode = 'conceal'
 nnoremap <Leader>ps :new<CR>:ConqueTerm powershell <CR>
+nnoremap <Leader>sh :new<CR>:ConqueTerm bash <CR>
 " }}}
 
 " Plugins {{{
