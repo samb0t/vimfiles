@@ -215,6 +215,8 @@ nnoremap <Leader>ls :Unite -quick-match buffer<cr>
 " Code documentation to be split below rather than above
 set splitbelow
 
+"let g:OmniSharp_server_type = 'roslyn'
+
 augroup omnisharp_commands
 
 	autocmd!
@@ -331,6 +333,19 @@ nnoremap <Leader>ps :new<CR>:ConqueTerm powershell <CR>
 nnoremap <Leader>sh :new<CR>:ConqueTerm bash <CR>
 " }}}
 
+" syntastic {{{
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_javascript_checkers = ['eslint']
+" }}}
+
 " Plugins {{{
 call pathogen#infect()
 call pathogen#helptags()
@@ -341,7 +356,11 @@ source $VIMRUNTIME/macros/matchit.vim
 " }}}
 
 " Post-pathogen infect {{{
-colorscheme wombat256mod
+if has("gui_running")
+	colorscheme solarized
+else
+	colorscheme darkblue
+endif
 " Airline - add 'indent' to track mixed indentation
 let g:airline#extensions#whitespace#checks = [ 'trailing' ]
 " }}}
