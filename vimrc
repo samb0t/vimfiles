@@ -67,6 +67,8 @@ nmap <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left>
 nmap <Leader>pa :let @* = expand("%:p")<CR>
 " copy entire file contents to the clipboard
 nmap <Leader>yf gg"*yG
+" make a copy of the current file
+nmap <Leader>cp :!cp "%" "%:h\"<Left>
 "open current file for edit in p4
 nmap <Leader>p4 :execute "!p4 -c " . g:p4w . " edit %"<CR>
 nmap <Leader>p4a :execute "!p4 -c " . g:p4w . " add %"<CR>
