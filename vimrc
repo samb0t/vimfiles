@@ -335,6 +335,10 @@ nnoremap <Leader>ps :new<CR>:ConqueTerm powershell <CR>
 nnoremap <Leader>sh :new<CR>:ConqueTerm bash <CR>
 " }}}
 
+" Renumber {{{
+vnoremap <Leader>nu :call Renumber()<CR>
+" }}}
+
 " syntastic {{{
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
