@@ -33,6 +33,8 @@ inoremap {<CR> {<CR>}<Esc>ko<Tab>
 set cm=blowfish
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
 nmap <Leader>sc :set spell! spelllang=en_us<CR>
+" auto-complete tags
+inoremap <// </<C-X><C-O><ESC>F<i
 " }}}
 
 " FileIO {{{
@@ -84,8 +86,12 @@ nnoremap <F5> :w<CR> :silent make<CR>
 " Filetypes {{{
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
 au BufRead,BufNewFile *.md set filetype=markdown
+"cwm is an extension I made up for confluence wiki markup syntax
+au BufRead,BufNewFile *.cwm set filetype=confluencewiki 
 au BufRead,BufNewFile *.cshtml set filetype=html
 au BufRead,BufNewFile *.apxc set filetype=apex
+au BufRead,BufNewFile *.csx set filetype=cs
+set fileencodings=iso-2022-jp,euc-jp,cp932,utf8,default,latin1
 " }}}
 
 " OS Specific {{{
@@ -310,7 +316,7 @@ else
 	let g:plantuml_executable_script = 'java -jar /bin/java/plantuml.jar'
 endif
 function CompileUml()
-	exe ":silent !p4 -c " . g:p4w . " edit *.png"
+	" exe ":silent !p4 -c " . g:p4w . " edit *.png"
 	exe ":silent make %"
 endfunction
 au BufWritePost *.uml call CompileUml()
