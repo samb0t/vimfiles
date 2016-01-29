@@ -72,3 +72,6 @@
 [submodule "bundle/vim-renumber"]
 	path = bundle/vim-renumber
 	url = https://github.com/clarke/vim-renumber.git
+[submodule "bundle/vim-ps1"]
+	path = bundle/vim-ps1
+	url = https://github.com/PProvost/vim-ps1.git
