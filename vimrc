@@ -189,6 +189,29 @@ function MarkdownLevel()
 endfunction
 au BufEnter *.md setlocal foldexpr=MarkdownLevel()
 au BufEnter *.md setlocal foldmethod=expr
+
+" like :on :only, except it actually deletes each buffer but the current
+function! Buflist()
+    redir => bufnames
+    silent ls
+    redir END
+    let list = []
+    for i in split(bufnames, "\n")
+        let buf = split(i, '"' )
+        call add(list, buf[-2])
+|   endfor
+    return list
+endfunction
+
+function! Bdeleteonly()
+    let list = filter(Buflist(), 'v:val != bufname("%")')
+    for buffer in list
+        exec "bdelete ".buffer
+    endfor
+endfunction
+command! Bdon :silent call Bdeleteonly()
+command! Bdonly :silent call Bdeleteonly()
+
 " }}}
 
 " Todo {{{
