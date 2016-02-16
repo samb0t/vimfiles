@@ -206,7 +206,10 @@ endfunction
 function! Bdeleteonly()
     let list = filter(Buflist(), 'v:val != bufname("%")')
     for buffer in list
-        exec "bdelete ".buffer
+		try
+			exec "bdelete ".buffer
+		catch
+		endtry
     endfor
 endfunction
 command! Bdon :silent call Bdeleteonly()
