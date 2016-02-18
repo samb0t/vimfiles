@@ -207,7 +207,7 @@ function! Bdeleteonly()
     let list = filter(Buflist(), 'v:val != bufname("%")')
     for buffer in list
 		try
-			exec "bdelete ".buffer
+			exec "bdelete \"".buffer."\""
 		catch
 		endtry
     endfor
