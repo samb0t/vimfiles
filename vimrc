@@ -197,17 +197,19 @@ function! Buflist()
     redir END
     let list = []
     for i in split(bufnames, "\n")
-        let buf = split(i, '"' )
-        call add(list, buf[-2])
-|   endfor
+		let buf = matchlist(i, '^\s\+\(\d\+\)')
+		if len(buf) > 1
+			call add(list, buf[1])
+		endif
+    endfor
     return list
 endfunction
 
 function! Bdeleteonly()
-    let list = filter(Buflist(), 'v:val != bufname("%")')
+    let list = filter(Buflist(), 'v:val != bufnr("%")')
     for buffer in list
 		try
-			exec "bdelete \"".buffer."\""
+			exec "bdelete ".buffer
 		catch
 		endtry
     endfor
