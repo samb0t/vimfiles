@@ -87,7 +87,7 @@ nnoremap <F5> :w<CR> :silent make<CR>
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
 au BufRead,BufNewFile *.md set filetype=markdown
 "cwm is an extension I made up for confluence wiki markup syntax
-au BufRead,BufNewFile *.cwm set filetype=confluencewiki 
+au BufRead,BufNewFile *.cwm set filetype=confluencewiki
 au BufRead,BufNewFile *.cshtml set filetype=html
 au BufRead,BufNewFile *.apxc set filetype=apex
 au BufRead,BufNewFile *.csx set filetype=cs
@@ -179,13 +179,13 @@ endfunction
 " Functions {{{
 " Convert markdown to Confluence-style markdown. Not complete yet.
 nmap <Leader>con :%s/^####/h4./e <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> g/^\d/norm O <CR>
-function MarkdownLevel() 
-	let h = matchstr(getline(v:lnum), '^#\+') 
+function MarkdownLevel()
+	let h = matchstr(getline(v:lnum), '^#\+')
 	if empty(h)
 		return "="
 	else
-		return ">" . len(h) 
-	endif 
+		return ">" . len(h)
+	endif
 endfunction
 au BufEnter *.md setlocal foldexpr=MarkdownLevel()
 au BufEnter *.md setlocal foldmethod=expr
@@ -398,7 +398,7 @@ source $VIMRUNTIME/macros/matchit.vim
 
 " Post-pathogen infect {{{
 if has("gui_running")
-	colorscheme solarized
+	colorscheme lucius
 else
 	colorscheme darkblue
 endif
