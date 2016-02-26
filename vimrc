@@ -345,7 +345,7 @@ else
 endif
 function CompileUml()
 	" exe ":silent !p4 -c " . g:p4w . " edit *.png"
-	exe ":silent make %"
+	exe ":silent make ""\"".expand("%:p")."\""
 endfunction
 au BufWritePost *.uml call CompileUml()
 " }}}
