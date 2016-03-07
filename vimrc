@@ -81,6 +81,8 @@ nmap <Leader>O O<ESC>
 nmap <Leader>A A;<ESC>
 "shortcut for using the built-in :make
 nnoremap <F5> :w<CR> :silent make<CR>
+"open file in new browser tab; requires chrome in path
+nmap <Leader>ch :silent !chrome chrome:\\newtab "%"<CR>
 " }}}
 
 " Filetypes {{{
