@@ -1,5 +1,5 @@
 " GlobalVariables {{{
-let g:p4w = "samb_webdevstreams"
+let g:p4w = "samb_wds"
 " }}}
 
 " LeaderMappings {{{
@@ -7,7 +7,7 @@ let mapleader=";"
 " }}}
 
 " Look and feel {{{
-filetype plugin on
+filetype plugin indent on
 syntax on
 set hlsearch
 " allow backspacing over everything in insert mode
@@ -123,8 +123,6 @@ if has("win32") || has("win16")
 	source $VIMRUNTIME/mswin.vim
 	behave mswin
 	let $vimfiles = '~\vimfiles'
-	let $rec = 'c:\sofodev\mediasite\main\applications\recorder2'
-	let $recui = 'c:\sofodev\mediasite\main\server\mediasiteroot\mediasiteroot\areas\recorder'
 	let $ts = '~\Dropbox\AutoSync\Tagspaces'
 	let $sites = 'c:\webdevstreams\SonicFoundry\Site'
 else
