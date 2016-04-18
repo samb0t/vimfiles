@@ -35,6 +35,8 @@ set cm=blowfish
 nmap <Leader>sc :set spell! spelllang=en_us<CR>
 " auto-complete tags
 inoremap <// </<C-X><C-O><ESC>F<i
+" use vim as calculator in insert mode
+inoremap <C-A> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
 " }}}
 
 " FileIO {{{
@@ -70,7 +72,7 @@ nmap <Leader>pa :let @* = expand("%:p")<CR>
 " copy entire file contents to the clipboard
 nmap <Leader>yf gg"*yG
 " make a copy of the current file
-nmap <Leader>cp :!cp "%" "%:h\"<Left>
+nmap <Leader>cp :!copy "%" "%:h\"<Left>
 "open current file for edit in p4
 nmap <Leader>p4 :execute "!p4 -c " . g:p4w . " edit %"<CR>
 nmap <Leader>p4a :execute "!p4 -c " . g:p4w . " add %"<CR>
