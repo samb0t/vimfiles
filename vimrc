@@ -1,5 +1,5 @@
 " GlobalVariables {{{
-let g:p4w = "samb_wds"
+let g:p4w = "samb_webdevstreams"
 " }}}
 
 " LeaderMappings {{{
@@ -25,7 +25,7 @@ set relativenumber
 " }}}
 
 " Snips {{{
-inoremap {<CR> {<CR>}<Esc>ko<Tab>
+inoremap {<CR> {<CR>}<Esc>ko
 " }}}
 
 " Misc {{{
@@ -33,6 +33,8 @@ inoremap {<CR> {<CR>}<Esc>ko<Tab>
 set cm=blowfish
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
 nmap <Leader>sc :set spell! spelllang=en_us<CR>
+" by default ; is find next. since ; is leader, hit it twice to find next
+nnoremap ;; ;
 " auto-complete tags
 inoremap <// </<C-X><C-O><ESC>F<i
 " use vim as calculator in insert mode
@@ -87,9 +89,14 @@ nnoremap <F5> :w<CR> :silent make<CR>
 nmap <Leader>ch :silent !chrome chrome:\\newtab "%"<CR>
 " }}}
 
+" :windo diffthis {{{
+nnoremap <Leader>dg :diffget<CR>
+nnoremap <Leader>dp :diffput<CR>
+" }}}
+
 " Filetypes {{{
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
-au BufRead,BufNewFile *.md set filetype=markdown
+au BufRead,BufNewFile *.md set encoding=utf-8 filetype=markdown fileencoding=utf-8
 "cwm is an extension I made up for confluence wiki markup syntax
 au BufRead,BufNewFile *.cwm set filetype=confluencewiki
 au BufRead,BufNewFile *.cshtml set filetype=html
@@ -121,9 +128,6 @@ if has("win32") || has("win16")
 	set guifont=consolas:h10:cANSI
 	autocmd InsertEnter * call SetRelativeNumber(0)
 	autocmd InsertLeave * call SetRelativeNumber(1)
-	let g:skip_loading_mswin=1 " turn this off if you really want awful windows ctrl bindings
-	source $VIMRUNTIME/mswin.vim
-	behave mswin
 	let $vimfiles = '~\vimfiles'
 	let $ts = '~\Dropbox\AutoSync\Tagspaces'
 	let $sites = 'c:\webdevstreams\SonicFoundry\Site'
@@ -189,8 +193,8 @@ function MarkdownLevel()
 		return ">" . len(h)
 	endif
 endfunction
-au BufEnter *.md setlocal foldexpr=MarkdownLevel()
-au BufEnter *.md setlocal foldmethod=expr
+au BufRead,BufEnter *.md setlocal foldexpr=MarkdownLevel()
+au BufRead,BufEnter *.md setlocal foldmethod=expr
 
 " like :on :only, except it actually deletes each buffer but the current
 function! Buflist()
@@ -362,6 +366,10 @@ endfunction
 au BufWritePost *.less call CompileLess()
 " }}}
 
+" SuperTab {{{
+let g:SuperTabDefaultCompletionType = "context"
+" }}}
+
 " ConqueShell {{{
 let g:ConqueTerm_FastMode = 1
 " conceal isn't doing its job, so just ditch colors for now
@@ -387,6 +395,16 @@ let g:syntastic_check_on_wq = 0
 
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_cs_checkers = ['syntax']
+" }}}
+
+" {{{ vimwiki
+let g:vimwiki_list = [{'path': '~/Dropbox/AutoSync/TagSpaces/', 'syntax': 'markdown', 'ext': '.md'},
+					 \ {'path': '~/my_site/', 'syntax': 'markdown', 'ext': '.md'}]
+" shift cells in a table with ease
+nmap <Leader>vwh di\F<Bar>Pi<ESC>
+nmap <Leader>vwj di\jpi<ESC>
+nmap <Leader>vwk di\kpi<ESC>
+nmap <Leader>vwl di\f<Bar>pi<ESC>
 " }}}
 
 " Plugins {{{
