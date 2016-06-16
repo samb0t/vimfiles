@@ -87,7 +87,7 @@ nmap <Leader>A A;<ESC>
 nnoremap <F5> :w<CR> :silent make<CR>
 "Paste today's date
 nnoremap <Leader>dt "=strftime("%m/%d/%y")<CR>P
-"open file in new browser tab; requires chrome in path
+"open file in new browser tab
 nmap <Leader>ch :silent !chrome chrome:\\newtab "%"<CR>
 " }}}
 
@@ -133,6 +133,7 @@ if has("win32") || has("win16")
 	let $vimfiles = '~\vimfiles'
 	let $ts = '~\Dropbox\AutoSync\Tagspaces'
 	let $sites = 'c:\webdevstreams\SonicFoundry\Site'
+	let $sf = 'c:\bin\sfdc\workspace'
 else
 	" FileIOXnix {{{
 	if !isdirectory($HOME . "/.vimbackups")
@@ -185,6 +186,18 @@ endfunction
 " WindowMgmt }}}
 "
 " Functions {{{
+" If the current file name contains a jira issue, open in browser
+function! OpenInJira()
+	let issueNo = matchlist(expand('%'),'\(join-\|ops-\)\(\d\+\)')
+	if empty(issueNo)
+		echo("no")
+	else
+		exec "silent ! start /B http://jira.sonicfoundry.net:8080/browse/" . issueNo[0]
+	endif
+endfunction
+
+nmap <Leader>is :call OpenInJira()<CR>
+
 " Convert markdown to Confluence-style markdown. Not complete yet.
 nmap <Leader>con :%s/^####/h4./e <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> g/^\d/norm O <CR>
 function MarkdownLevel()
