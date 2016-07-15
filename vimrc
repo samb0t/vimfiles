@@ -18,7 +18,7 @@ set ignorecase
 set smartcase
 set background=dark
 set guioptions-=T "remove toolbar
-set tabstop=4 softtabstop=0 noexpandtab shiftwidth=4
+set tabstop=4 softtabstop=4 expandtab shiftwidth=4
 set nobomb "remove byte order mark
 set number
 set relativenumber
@@ -86,7 +86,7 @@ nmap <Leader>A A;<ESC>
 "shortcut for using the built-in :make
 nnoremap <F5> :w<CR> :silent make<CR>
 "Paste today's date
-nnoremap <Leader>dt "=strftime("%m/%d/%y")<CR>P
+nnoremap <Leader>dt "=strftime("%m/%d/%y")<CR>p
 "open file in new browser tab
 nmap <Leader>ch :silent !chrome chrome:\\newtab "%"<CR>
 " }}}
@@ -188,7 +188,7 @@ endfunction
 " Functions {{{
 " If the current file name contains a jira issue, open in browser
 function! OpenInJira()
-	let issueNo = matchlist(expand('%'),'\(join-\|ops-\)\(\d\+\)')
+	let issueNo = matchlist(expand('%'),'\(join-\|ops-\|evp-\)\(\d\+\)')
 	if empty(issueNo)
 		echo("no")
 	else
@@ -208,8 +208,7 @@ function MarkdownLevel()
 		return ">" . len(h)
 	endif
 endfunction
-au BufRead,BufEnter *.md setlocal foldexpr=MarkdownLevel()
-au BufRead,BufEnter *.md setlocal foldmethod=expr
+au BufRead,BufEnter *.md setlocal foldexpr=MarkdownLevel() foldmethod=expr
 
 " like :on :only, except it actually deletes each buffer but the current
 function! Buflist()
@@ -232,6 +231,7 @@ function! Bdeleteonly()
 		try
 			exec "bdelete ".buffer
 		catch
+			call setqflist([{"text": v:exception}])
 		endtry
     endfor
 endfunction
@@ -433,7 +433,7 @@ source $VIMRUNTIME/macros/matchit.vim
 
 " Post-pathogen infect {{{
 if has("gui_running")
-	colorscheme lucius
+	colorscheme gotham
 else
 	colorscheme darkblue
 endif
