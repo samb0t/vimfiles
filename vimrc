@@ -22,6 +22,7 @@ set tabstop=4 softtabstop=4 expandtab shiftwidth=4
 set nobomb "remove byte order mark
 set number
 set relativenumber
+set foldlevel=20 " when we have folding, start open
 " }}}
 
 " Snips {{{
@@ -39,6 +40,10 @@ nnoremap ;; ;
 inoremap <// </<C-X><C-O><ESC>F<i
 " use vim as calculator in insert mode
 inoremap <C-A> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
+" generate a GUID; just type guid somewhere!
+nnoremap <Leader>gu :py import uuid<CR>:s/guid/\=pyeval('str(uuid.uuid4()).upper()')/ <Bar> :noh<CR>
+" generate markup vim footer
+nmap <Leader>foot Go<!--<Enter>%% vim:tw=80<Enter>--><ESC>:e %<Enter>
 " }}}
 
 " FileIO {{{
@@ -161,6 +166,19 @@ set winminheight=0
 nmap <Leader>j <C-w>j<C-w>_
 nmap <Leader>k <C-w>k<C-w>_
 
+" ResizeFont {{{
+nmap <Leader>+ :silent! let &guifont = substitute(
+ \ &guifont,
+ \ ':h\zs\d\+',
+ \ '\=eval(submatch(0)+1)',
+ \ '')<CR>
+nmap <Leader>- :silent! let &guifont = substitute(
+ \ &guifont,
+ \ ':h\zs\d\+',
+ \ '\=eval(submatch(0)-1)',
+ \ '')<CR>
+" }}}
+
 " Maximize (:only) with Save/Restore split configuration: {{{
 " http://vim.wikia.com/wiki/Maximize_window_and_return_to_previous_split_structure
 nnoremap <C-W>O :call MaximizeToggle()<CR>
@@ -199,17 +217,7 @@ endfunction
 nmap <Leader>is :call OpenInJira()<CR>
 
 " Convert markdown to Confluence-style markdown. Not complete yet.
-nmap <Leader>con :%s/^####/h4./e <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> g/^\d/norm O <CR>
-function MarkdownLevel()
-	let h = matchstr(getline(v:lnum), '^#\+')
-	if empty(h)
-		return "="
-	else
-		return ">" . len(h)
-	endif
-endfunction
-au BufRead,BufEnter *.md setlocal foldexpr=MarkdownLevel() foldmethod=expr
-
+nmap <Leader>con :%s/^####/h4./ge <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> %s/^    -/--/ge <Bar> %s/        -/---/ge <Bar> %s/            -/----/ge <Bar> %s/`\(.\{-}\)`/{{\1}}/ge <Bar> g/^\d/norm O <CR> 
 " like :on :only, except it actually deletes each buffer but the current
 function! Buflist()
     redir => bufnames
@@ -217,7 +225,8 @@ function! Buflist()
     redir END
     let list = []
     for i in split(bufnames, "\n")
-		let buf = matchlist(i, '^\s\+\(\d\+\)')
+		let buf = matchlist(i, '^\s\{-\}\(\d\+\)')
+        echo buf
 		if len(buf) > 1
 			call add(list, buf[1])
 		endif
@@ -413,6 +422,7 @@ let g:syntastic_cs_checkers = ['syntax']
 " }}}
 
 " {{{ vimwiki
+let g:vimwiki_folding = 'expr'
 let g:vimwiki_list = [{'path': '~/Dropbox/AutoSync/TagSpaces/', 'syntax': 'markdown', 'ext': '.md'},
 					 \ {'path': '~/my_site/', 'syntax': 'markdown', 'ext': '.md'}]
 " shift cells in a table with ease
@@ -433,7 +443,7 @@ source $VIMRUNTIME/macros/matchit.vim
 
 " Post-pathogen infect {{{
 if has("gui_running")
-	colorscheme gotham
+	colorscheme lucius
 else
 	colorscheme darkblue
 endif
@@ -441,4 +451,4 @@ endif
 let g:airline#extensions#whitespace#checks = [ 'trailing' ]
 " }}}
 
-" vim:fdm=marker
+" vim:fdm=marker:foldlevel=0
