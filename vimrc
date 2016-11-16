@@ -373,7 +373,7 @@ if has ("win32")
 else
 	let g:plantuml_executable_script = 'java -jar /bin/java/plantuml.jar'
 endif
-function CompileUml()
+function! CompileUml()
 	" exe ":silent !p4 -c " . g:p4w . " edit *.png"
 	exe ":silent make ""\"".expand("%:p")."\""
 endfunction
@@ -382,7 +382,7 @@ au BufWritePost *.uml call CompileUml()
 
 " LESS {{{
 "requires node.js and lessc
-function CompileLess()
+function! CompileLess()
 	execute ":silent !p4 -c " . g:p4w . " edit *.css *.map"
 	:!lessc % %:t:r.css --source-map=%:t:r.css.map
 	:!lessc % %:t:r.min.css -x
