@@ -43,7 +43,7 @@ inoremap <C-A> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
 " generate a GUID; just type guid somewhere!
 nnoremap <Leader>gu :py import uuid<CR>:s/guid/\=pyeval('str(uuid.uuid4()).upper()')/ <Bar> :noh<CR>
 " generate markup vim footer
-nmap <Leader>foot Go<!--<Enter>%% vim:tw=80<Enter>--><ESC>:e %<Enter>
+nmap <Leader>foot Go<!--<Enter>%% vim:tw=80<Enter>--><ESC>:w<CR>:e %<Enter>
 " }}}
 
 " FileIO {{{
@@ -103,7 +103,7 @@ nnoremap <Leader>dp :diffput<CR>
 
 " Filetypes {{{
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
-au BufRead,BufNewFile *.md set encoding=utf-8 filetype=markdown fileencoding=utf-8
+au BufRead,BufNewFile *.md set encoding=utf-8 filetype=vimwiki fileencoding=utf-8
 "cwm is an extension I made up for confluence wiki markup syntax
 au BufRead,BufNewFile *.cwm set filetype=confluencewiki
 au BufRead,BufNewFile *.cshtml set filetype=html
@@ -167,12 +167,12 @@ nmap <Leader>j <C-w>j<C-w>_
 nmap <Leader>k <C-w>k<C-w>_
 
 " ResizeFont {{{
-nmap <Leader>+ :silent! let &guifont = substitute(
+nmap <Leader>2 :silent! let &guifont = substitute(
  \ &guifont,
  \ ':h\zs\d\+',
  \ '\=eval(submatch(0)+1)',
  \ '')<CR>
-nmap <Leader>- :silent! let &guifont = substitute(
+nmap <Leader>1 :silent! let &guifont = substitute(
  \ &guifont,
  \ ':h\zs\d\+',
  \ '\=eval(submatch(0)-1)',
@@ -202,7 +202,7 @@ function! MaximizeToggle()
 endfunction
 " }}}
 " WindowMgmt }}}
-"
+
 " Functions {{{
 " If the current file name contains a jira issue, open in browser
 function! OpenInJira()
@@ -217,7 +217,7 @@ endfunction
 nmap <Leader>is :call OpenInJira()<CR>
 
 " Convert markdown to Confluence-style markdown. Not complete yet.
-nmap <Leader>con :%s/^####/h4./ge <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> %s/^    -/--/ge <Bar> %s/        -/---/ge <Bar> %s/            -/----/ge <Bar> %s/`\(.\{-}\)`/{{\1}}/ge <Bar> g/^\d/norm O <CR> 
+nmap <Leader>con :%s/^####/h4./ge <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> %s/^    -/--/ge <Bar> %s/        -/---/ge <Bar> %s/            -/----/ge <Bar> %s/`\(.\{-}\)`/{{\1}}/ge <Bar> g/^\d/norm O <CR>
 " like :on :only, except it actually deletes each buffer but the current
 function! Buflist()
     redir => bufnames
@@ -443,12 +443,13 @@ source $VIMRUNTIME/macros/matchit.vim
 
 " Post-pathogen infect {{{
 if has("gui_running")
-	colorscheme lucius
+	colorscheme hybrid_material
 else
 	colorscheme darkblue
 endif
 " Airline - add 'indent' to track mixed indentation
 let g:airline#extensions#whitespace#checks = [ 'trailing' ]
+let g:airline_theme='hybrid'
 " }}}
 
 " vim:fdm=marker:foldlevel=0
