@@ -30,6 +30,7 @@ inoremap {<CR> {<CR>}<Esc>ko
 " }}}
 
 " Misc {{{
+inoremap kj <ESC>
 "set encryption to something more secure. pkzip is default
 set cm=blowfish
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
@@ -217,7 +218,7 @@ endfunction
 nmap <Leader>is :call OpenInJira()<CR>
 
 " Convert markdown to Confluence-style markdown. Not complete yet.
-nmap <Leader>con :%s/^####/h4./ge <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> %s/^    -/--/ge <Bar> %s/        -/---/ge <Bar> %s/            -/----/ge <Bar> %s/`\(.\{-}\)`/{{\1}}/ge <Bar> g/^\d/norm O <CR>
+nmap <Leader>con :%s/^####/h4./ge <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> %s/^    -/--/ge <Bar> %s/        -/---/ge <Bar> %s/            -/----/ge <Bar> %s/`\(.\{-}\)`/{{\1}}/ge <Bar> silent g/^\d/norm O <CR>
 " like :on :only, except it actually deletes each buffer but the current
 function! Buflist()
     redir => bufnames
@@ -281,7 +282,7 @@ nnoremap <Leader>ls :Unite -quick-match buffer<cr>
 " Code documentation to be split below rather than above
 set splitbelow
 
-"let g:OmniSharp_server_type = 'roslyn'
+let g:OmniSharp_server_type = 'roslyn'
 
 augroup omnisharp_commands
 
@@ -358,6 +359,8 @@ if has ("win32")
 	let g:apex_binary_tee = 'C:\bin\UnxUtils\tee.exe'
 	let g:apex_binary_touch = 'C:\bin\UnxUtils\touch.exe'
 	let g:apex_workspace_path = 'C:\bin\sfdc\workspace\'
+    let g:apex_server = 1
+    let g:apex_server_timeoutSec=60*10 " allow server to wait for new connections within 10 minutes
 else
 	let g:apex_backup_folder = '/bin/sfdc/backups/'
 	let g:apex_temp_folder = '/bin/temp'
