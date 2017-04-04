@@ -31,6 +31,9 @@ inoremap {<CR> {<CR>}<Esc>ko
 
 " Misc {{{
 inoremap kj <ESC>
+cnoremap kj <ESC>
+vnoremap kj <ESC>
+xnoremap kj <ESC>
 "set encryption to something more secure. pkzip is default
 set cm=blowfish
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
@@ -283,6 +286,8 @@ nnoremap <Leader>ls :Unite -quick-match buffer<cr>
 set splitbelow
 
 let g:OmniSharp_server_type = 'roslyn'
+let g:OmniSharp_prefer_global_sln = 1
+let g:OmniSharp_timeout = 10
 
 augroup omnisharp_commands
 
@@ -415,13 +420,15 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+let g:syntastic_aggregate_errors = 1
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_cs_checkers = ['syntax']
+let g:syntastic_cs_checkers = ['code_checker']
 " }}}
 
 " {{{ vimwiki
