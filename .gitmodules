@@ -81,3 +81,6 @@
 [submodule "bundle/vimwiki"]
 	path = bundle/vimwiki
 	url = https://github.com/vimwiki/vimwiki.git
+[submodule "bundle/ultisnips"]
+	path = bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips.git

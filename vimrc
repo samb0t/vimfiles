@@ -288,6 +288,8 @@ set splitbelow
 let g:OmniSharp_server_type = 'roslyn'
 let g:OmniSharp_prefer_global_sln = 1
 let g:OmniSharp_timeout = 10
+set completeopt-=preview
+let g:OmniSharp_want_snippet=1
 
 augroup omnisharp_commands
 
@@ -352,6 +354,10 @@ nnoremap <leader>sp :OmniSharpStopServer<cr>
 set hidden
 
 " OmniSharp }}}
+
+" UltiSnips {{{
+ let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnips"]
+" }}}
 
 " vim-force.com {{{
 " see :help force.com
