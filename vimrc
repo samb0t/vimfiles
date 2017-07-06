@@ -23,6 +23,7 @@ set nobomb "remove byte order mark
 set number
 set relativenumber
 set foldlevel=20 " when we have folding, start open
+set laststatus=2 " always show status line
 " }}}
 
 " Snips {{{
@@ -34,6 +35,7 @@ inoremap kj <ESC>
 cnoremap kj <ESC>
 vnoremap kj <ESC>
 xnoremap kj <ESC>
+
 "set encryption to something more secure. pkzip is default
 set cm=blowfish
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
@@ -76,7 +78,7 @@ nmap <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 " edit file's current directory
 nmap <Leader>ed :e %:h<CR>
 " Open vimgrep and put the cursor in the right position
-nmap <leader>gd :vimgrep // %:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+nmap <leader>gd :vimgrep // %:p:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 nmap <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left>
 "copies current filepath to clipboard
 nmap <Leader>pa :let @* = expand("%:p")<CR>
@@ -286,6 +288,7 @@ nnoremap <Leader>ls :Unite -quick-match buffer<cr>
 set splitbelow
 
 let g:OmniSharp_server_type = 'roslyn'
+" let g:OmniSharp_server_type = 'v1'
 let g:OmniSharp_prefer_global_sln = 1
 let g:OmniSharp_timeout = 10
 set completeopt-=preview
