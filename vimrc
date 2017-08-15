@@ -369,7 +369,7 @@ if has ("win32")
 	let g:apex_backup_folder = 'C:\bin\sfdc\backups\'
 	let g:apex_temp_folder = 'C:\bin\temp'
 	let g:apex_properties_folder = 'C:\bin\sfdc\properties\'
-	let g:apex_tooling_force_dot_com_path = 'C:\bin\sfdc\tooling-force.com-0.3.3.0.jar'
+	let g:apex_tooling_force_dot_com_path = 'C:\bin\sfdc\tooling-force.com-0.4.0.0.jar'
 	let g:apex_binary_tee = 'C:\bin\UnxUtils\tee.exe'
 	let g:apex_binary_touch = 'C:\bin\UnxUtils\touch.exe'
 	let g:apex_workspace_path = 'C:\bin\sfdc\workspace\'
@@ -379,7 +379,7 @@ else
 	let g:apex_backup_folder = '/bin/sfdc/backups/'
 	let g:apex_temp_folder = '/bin/temp'
 	let g:apex_properties_folder = '/bin/sfdc/properties/'
-	let g:apex_tooling_force_dot_com_path = '/bin/sfdc/tooling-force.com-0.3.3.0.jar'
+	let g:apex_tooling_force_dot_com_path = '/bin/sfdc/tooling-force.com-0.4.0.0.jar'
 	let g:apex_workspace_path = '/bin/sfdc/workspace/'
 endif
 " }}}
@@ -391,10 +391,13 @@ else
 	let g:plantuml_executable_script = 'java -jar /bin/java/plantuml.jar'
 endif
 function! CompileUml()
-	" exe ":silent !p4 -c " . g:p4w . " edit *.png"
 	exe ":silent make ""\"".expand("%:p")."\""
 endfunction
 au BufWritePost *.uml call CompileUml()
+let s:makecommand=g:plantuml_executable_script." %"
+
+" define a sensible makeprg for plantuml files
+autocmd Filetype plantuml let &l:makeprg=s:makecommand
 " }}}
 
 " LESS {{{
@@ -442,7 +445,7 @@ let g:syntastic_cs_checkers = ['code_checker']
 
 " {{{ vimwiki
 let g:vimwiki_folding = 'expr'
-let g:vimwiki_list = [{'path': '~/Dropbox/AutoSync/TagSpaces/', 'syntax': 'markdown', 'ext': '.md'},
+let g:vimwiki_list = [{'path': '~/Dropbox/AutoSync/wiki/', 'syntax': 'markdown', 'ext': '.md'},
 					 \ {'path': '~/my_site/', 'syntax': 'markdown', 'ext': '.md'}]
 " shift cells in a table with ease
 nmap <Leader>vwh di\F<Bar>Pi<ESC>
