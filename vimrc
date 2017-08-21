@@ -142,7 +142,7 @@ if has("win32") || has("win16")
 	autocmd InsertEnter * call SetRelativeNumber(0)
 	autocmd InsertLeave * call SetRelativeNumber(1)
 	let $vimfiles = '~\vimfiles'
-	let $ts = '~\Dropbox\AutoSync\Tagspaces'
+	let $ts = '~\Dropbox\AutoSync\wiki'
 	let $sites = 'c:\webdevstreams\SonicFoundry\Site'
 	let $sf = 'c:\bin\sfdc\workspace'
 else
@@ -155,7 +155,7 @@ else
 	autocmd InsertEnter * :set number
 	autocmd InsertLeave * :set relativenumber
 	let $vimfiles = '~/.vim'
-	let $ts = '~/Dropbox/AutoSync/Tagspaces'
+	let $ts = '~/Dropbox/AutoSync/wiki'
 endif
 " }}}
 
