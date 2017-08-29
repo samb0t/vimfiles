@@ -29,9 +29,6 @@
 [submodule "bundle/vim-surround"]
 	path = bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
-[submodule "bundle/todo.txt-vim"]
-	path = bundle/todo.txt-vim
-	url = https://github.com/freitass/todo.txt-vim.git
 [submodule "tabular"]
 	path = bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
@@ -84,3 +81,9 @@
 [submodule "bundle/ultisnips"]
 	path = bundle/ultisnips
 	url = https://github.com/SirVer/ultisnips.git
+[submodule "bundle/vim-autotag"]
+	path = bundle/vim-autotag
+	url = git://github.com/craigemery/vim-autotag.git
+[submodule "bundle/unite-tag"]
+	path = bundle/unite-tag
+	url = https://github.com/tsukkee/unite-tag.git

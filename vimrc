@@ -115,6 +115,7 @@ au BufRead,BufNewFile *.cwm set filetype=confluencewiki
 au BufRead,BufNewFile *.cshtml set filetype=html
 au BufRead,BufNewFile *.apxc set filetype=apex
 au BufRead,BufNewFile *.csx set filetype=cs
+au BufRead,BufNewFile *.mmd set filetype=plantuml
 set fileencodings=iso-2022-jp,euc-jp,cp932,utf8,default,latin1
 " }}}
 
@@ -281,6 +282,10 @@ nnoremap <Leader>y :Unite history/yank<cr>
 " quick buffer switching
 nnoremap <Leader>ls :Unite -quick-match buffer<cr>
 
+" grep ctags
+set tags=./tags;/
+nnoremap <Leader>gc :Unite -start-insert tag<cr>
+
 " Unite }}}
 
 " OmniSharp (Most from https://github.com/OmniSharp/omnisharp-vim examples) {{{
@@ -398,6 +403,17 @@ let s:makecommand=g:plantuml_executable_script." %"
 
 " define a sensible makeprg for plantuml files
 autocmd Filetype plantuml let &l:makeprg=s:makecommand
+" }}}
+
+" Mermaid.js (make is overwriting plantuml settings) {{{
+" Make sure mermaid and phantomjs are npm installed globally
+let g:mermaid_executable_script = 'mermaid'
+let s:makemermaid=g:mermaid_executable_script." %"
+autocmd Filetype plantuml let &l:makeprg=s:makemermaid
+function! CompileMmd()
+	exe ":silent make ""\"".expand("%:p")."\""
+endfunction
+au BufWritePost *.mmd call CompileMmd()
 " }}}
 
 " LESS {{{
