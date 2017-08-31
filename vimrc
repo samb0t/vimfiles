@@ -139,7 +139,8 @@ if has("win32") || has("win16")
 	" }}}
 	au GUIEnter * simalt ~x
 	set guioptions-=m  "remove menu bar
-	set guifont=consolas:h10:cANSI
+	set guifont=powerline_consolas,consolas:h10:cANSI
+	set guifontwide=NSimSun
 	autocmd InsertEnter * call SetRelativeNumber(0)
 	autocmd InsertLeave * call SetRelativeNumber(1)
 	let $vimfiles = '~\vimfiles'
@@ -482,11 +483,14 @@ source $VIMRUNTIME/macros/matchit.vim
 " Post-pathogen infect {{{
 if has("gui_running")
 	colorscheme hybrid_material
+    set encoding=utf-8
+    let g:airline_powerline_fonts = 1
 else
 	colorscheme darkblue
 endif
 " Airline - add 'indent' to track mixed indentation
 let g:airline#extensions#whitespace#checks = [ 'trailing' ]
+let g:airline#extensions#whitespace#symbol = '!'
 let g:airline_theme='hybrid'
 " }}}
 
