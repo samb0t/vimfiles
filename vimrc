@@ -1,5 +1,4 @@
 " GlobalVariables {{{
-let g:p4w = "samb_webdevstreams"
 " }}}
 
 " LeaderMappings {{{
@@ -24,10 +23,12 @@ set number
 set relativenumber
 set foldlevel=20 " when we have folding, start open
 set laststatus=2 " always show status line
+set splitbelow " open splits to the bottom
 " }}}
 
 " Snips {{{
 inoremap {<CR> {<CR>}<Esc>ko
+inoremap ( ()<Left>
 " }}}
 
 " Misc {{{
@@ -86,9 +87,6 @@ nmap <Leader>pa :let @* = expand("%:p")<CR>
 nmap <Leader>yf gg"*yG
 " make a copy of the current file
 nmap <Leader>cp :!copy "%" "%:h\"<Left>
-"open current file for edit in p4
-nmap <Leader>p4 :execute "!p4 -c " . g:p4w . " edit %"<CR>
-nmap <Leader>p4a :execute "!p4 -c " . g:p4w . " add %"<CR>
 "create new line, but remain in normal
 nmap <Leader>o o<ESC>
 nmap <Leader>O O<ESC>
@@ -121,9 +119,6 @@ set fileencodings=iso-2022-jp,euc-jp,cp932,utf8,default,latin1
 
 " OS Specific {{{
 fun! SetRelativeNumber(on)
-	if exists('b:conque_on')
-		return
-	endif
 	if (a:on)
 		exe "set relativenumber"
 	else
@@ -145,8 +140,7 @@ if has("win32") || has("win16")
 	autocmd InsertLeave * call SetRelativeNumber(1)
 	let $vimfiles = '~\vimfiles'
 	let $ts = '~\Dropbox\AutoSync\wiki'
-	let $sites = 'c:\webdevstreams\SonicFoundry\Site'
-	let $sf = 'c:\bin\sfdc\workspace'
+    let $sf = 'c:\bin\sfdc\workspace'
 else
 	" FileIOXnix {{{
 	if !isdirectory($HOME . "/.vimbackups")
@@ -291,7 +285,6 @@ nnoremap <Leader>gc :Unite -start-insert tag<cr>
 
 " OmniSharp (Most from https://github.com/OmniSharp/omnisharp-vim examples) {{{
 " Code documentation to be split below rather than above
-set splitbelow
 
 let g:OmniSharp_server_type = 'roslyn'
 " let g:OmniSharp_server_type = 'v1'
@@ -420,7 +413,6 @@ au BufWritePost *.mmd call CompileMmd()
 " LESS {{{
 "requires node.js and lessc
 function! CompileLess()
-	execute ":silent !p4 -c " . g:p4w . " edit *.css *.map"
 	:!lessc % %:t:r.css --source-map=%:t:r.css.map
 	:!lessc % %:t:r.min.css -x
 endfunction
@@ -429,15 +421,6 @@ au BufWritePost *.less call CompileLess()
 
 " SuperTab {{{
 let g:SuperTabDefaultCompletionType = "context"
-" }}}
-
-" ConqueShell {{{
-let g:ConqueTerm_FastMode = 1
-" conceal isn't doing its job, so just ditch colors for now
-" let g:ConqueTerm_Color = 2
-" let g:ConqueTerm_ColorMode = 'conceal'
-nnoremap <Leader>ps :new<CR>:ConqueTerm powershell <CR>
-nnoremap <Leader>sh :new<CR>:ConqueTerm bash <CR>
 " }}}
 
 " Renumber {{{
