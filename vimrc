@@ -6,6 +6,8 @@ let mapleader=";"
 " }}}
 
 " Look and feel {{{
+set fileformat=unix
+set fileformats=unix
 filetype plugin indent on
 syntax on
 set hlsearch
@@ -28,7 +30,6 @@ set splitbelow " open splits to the bottom
 
 " Snips {{{
 inoremap {<CR> {<CR>}<Esc>ko
-inoremap ( ()<Left>
 " }}}
 
 " Misc {{{
@@ -130,7 +131,6 @@ if has("win32") || has("win16")
 	if !isdirectory($HOME . "\\.vimbackups")
 		call mkdir($HOME . "\\.vimbackups", "p", 0700)
 	endif
-	set fileformats=dos
 	" }}}
 	au GUIEnter * simalt ~x
 	set guioptions-=m  "remove menu bar
@@ -147,7 +147,6 @@ else
 		call mkdir($HOME . "/.vimbackups", "p", 0700)
 	endif
 	" }}}
-	set fileformat=mac
 	autocmd InsertEnter * :set number
 	autocmd InsertLeave * :set relativenumber
 	let $vimfiles = '~/.vim'
@@ -206,17 +205,17 @@ endfunction
 " WindowMgmt }}}
 
 " Functions {{{
-" If the current file name contains a jira issue, open in browser
-function! OpenInJira()
-	let issueNo = matchlist(expand('%'),'\(join-\|ops-\|evp-\)\(\d\+\)')
+" If the current file name contains a fogbugz issue, open in browser
+function! OpenInFogBugz()
+    let issueNo = matchlist(expand('%'), 'BugzID-\(\d\+\)')
 	if empty(issueNo)
 		echo("no")
 	else
-		exec "silent ! start /B http://jira.sonicfoundry.net:8080/browse/" . issueNo[0]
+		exec "silent ! start /B https://fogbugz.forteresearch.com/f/cases/" . issueNo[1]
 	endif
 endfunction
 
-nmap <Leader>is :call OpenInJira()<CR>
+nmap <Leader>is :call OpenInFogBugz()<CR>
 
 " Convert markdown to Confluence-style markdown. Not complete yet.
 nmap <Leader>con :%s/^####/h4./ge <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> %s/^    -/--/ge <Bar> %s/        -/---/ge <Bar> %s/            -/----/ge <Bar> %s/`\(.\{-}\)`/{{\1}}/ge <Bar> silent g/^\d/norm O <CR>
@@ -445,8 +444,8 @@ let g:syntastic_cs_checkers = ['code_checker']
 
 " {{{ vimwiki
 let g:vimwiki_folding = 'expr'
-let g:vimwiki_list = [{'path': '~/Dropbox/AutoSync/wiki/', 'syntax': 'markdown', 'ext': '.md'},
-					 \ {'path': '~/my_site/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': 'H:/notes/', 'syntax': 'markdown', 'ext': '.md'},
+					 \ {'path': '~/Dropbox/AutoSync/wiki/', 'syntax': 'markdown', 'ext': '.md'}]
 " shift cells in a table with ease
 nmap <Leader>vwh di\F<Bar>Pi<ESC>
 nmap <Leader>vwj di\jpi<ESC>
@@ -469,7 +468,17 @@ if has("gui_running")
     set encoding=utf-8
     let g:airline_powerline_fonts = 1
 else
-	colorscheme darkblue
+    set termencoding=utf-8
+    set encoding=utf-8
+    inoremap <Char-0x07F> <BS>
+    nnoremap <Char-0x07F> <BS>
+    set term=xterm
+    set t_Co=256
+    let &t_AB="\e[48;5;%dm"
+    let &t_AF="\e[38;5;%dm"
+    let g:solarized_termcolors=256
+    set background=dark
+    colorscheme solarized
 endif
 " Airline - add 'indent' to track mixed indentation
 let g:airline#extensions#whitespace#checks = [ 'trailing' ]
