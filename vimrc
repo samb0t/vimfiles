@@ -134,7 +134,6 @@ if has("win32") || has("win16")
 	" }}}
 	au GUIEnter * simalt ~x
 	set guioptions-=m  "remove menu bar
-	set guifont=powerline_consolas,consolas:h10:cANSI
 	set guifontwide=NSimSun
 	autocmd InsertEnter * call SetRelativeNumber(0)
 	autocmd InsertLeave * call SetRelativeNumber(1)
@@ -444,7 +443,7 @@ let g:syntastic_cs_checkers = ['code_checker']
 
 " {{{ vimwiki
 let g:vimwiki_folding = 'expr'
-let g:vimwiki_list = [{'path': 'H:/notes/', 'syntax': 'markdown', 'ext': '.md'},
+let g:vimwiki_list = [{'path': '/media/sam.bottoni/notes/', 'syntax': 'markdown', 'ext': '.md'},
 					 \ {'path': '~/Dropbox/AutoSync/wiki/', 'syntax': 'markdown', 'ext': '.md'}]
 " shift cells in a table with ease
 nmap <Leader>vwh di\F<Bar>Pi<ESC>
@@ -466,7 +465,10 @@ source $VIMRUNTIME/macros/matchit.vim
 if has("gui_running")
 	colorscheme hybrid_material
     set encoding=utf-8
-    let g:airline_powerline_fonts = 1
+    set guifont=powerline\ consolas,consolas:h10:cANSI
+    set lines=999
+    set columns=999
+    let g:airline_theme='hybrid'
 else
     set termencoding=utf-8
     set encoding=utf-8
@@ -477,13 +479,15 @@ else
     let &t_AB="\e[48;5;%dm"
     let &t_AF="\e[38;5;%dm"
     let g:solarized_termcolors=256
+    let g:solarized_termtrans=1
     set background=dark
+    let g:airline_theme='solarized'
     colorscheme solarized
 endif
 " Airline - add 'indent' to track mixed indentation
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#checks = [ 'trailing' ]
 let g:airline#extensions#whitespace#symbol = '!'
-let g:airline_theme='hybrid'
 " }}}
 
 " vim:fdm=marker:foldlevel=0
