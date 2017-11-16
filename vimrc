@@ -26,6 +26,7 @@ set relativenumber
 set foldlevel=20 " when we have folding, start open
 set laststatus=2 " always show status line
 set splitbelow " open splits to the bottom
+set clipboard=unnamedplus " y is "+y by default for easier copy/paste
 " }}}
 
 " Snips {{{
@@ -47,7 +48,7 @@ nnoremap ;; ;
 " auto-complete tags
 inoremap <// </<C-X><C-O><ESC>F<i
 " use vim as calculator in insert mode
-inoremap <C-A> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
+inoremap <C-L> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
 " generate a GUID; just type guid somewhere!
 nnoremap <Leader>gu :py import uuid<CR>:s/guid/\=pyeval('str(uuid.uuid4()).upper()')/ <Bar> :noh<CR>
 " generate markup vim footer
@@ -83,11 +84,15 @@ nmap <Leader>ed :e %:h<CR>
 nmap <leader>gd :vimgrep // %:p:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 nmap <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left>
 "copies current filepath to clipboard
+if has("win32") || has("win16")
 nmap <Leader>pa :let @* = expand("%:p")<CR>
+else
+nmap <Leader>pa :let @+ = expand("%:p")<CR>
+endif
 " copy entire file contents to the clipboard
 nmap <Leader>yf gg"*yG
 " make a copy of the current file
-nmap <Leader>cp :!copy "%" "%:h\"<Left>
+nmap <Leader>cp :!cp "%" "%:h/"<Left>
 "create new line, but remain in normal
 nmap <Leader>o o<ESC>
 nmap <Leader>O O<ESC>
@@ -99,6 +104,9 @@ nnoremap <F5> :w<CR> :silent make<CR>
 nnoremap <Leader>dt "=strftime("%m/%d/%y")<CR>p
 "open file in new browser tab
 nmap <Leader>ch :silent !chrome chrome:\\newtab "%"<CR>
+"increment decrement ints to not interfere with tmux
+nnoremap <C-z> <C-a>
+nnoremap <C-x> <C-x>
 " }}}
 
 " :windo diffthis {{{
@@ -210,7 +218,11 @@ function! OpenInFogBugz()
 	if empty(issueNo)
 		echo("no")
 	else
-		exec "silent ! start /B https://fogbugz.forteresearch.com/f/cases/" . issueNo[1]
+        if has ("win32")
+            exec "silent ! start /B https://fogbugz.forteresearch.com/f/cases/" . issueNo[1]
+        else
+            exec "silent ! sensible-browser https://fogbugz.forteresearch.com/f/cases/" . issueNo[1]
+        endif
 	endif
 endfunction
 
@@ -483,6 +495,7 @@ else
     set background=dark
     let g:airline_theme='solarized'
     colorscheme solarized
+    highlight LineNr ctermbg=none
 endif
 " Airline - add 'indent' to track mixed indentation
 let g:airline_powerline_fonts = 1
