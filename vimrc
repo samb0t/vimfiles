@@ -27,6 +27,7 @@ set foldlevel=20 " when we have folding, start open
 set laststatus=2 " always show status line
 set splitbelow " open splits to the bottom
 set clipboard=unnamedplus " y is "+y by default for easier copy/paste
+set ttimeoutlen=2 " helps escape from insert faster when in terminal
 " }}}
 
 " Snips {{{
@@ -42,7 +43,7 @@ xnoremap kj <ESC>
 "set encryption to something more secure. pkzip is default
 set cm=blowfish
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
-nmap <Leader>sc :set spell! spelllang=en_us<CR>
+nmap <Leader>sp :set spell! spelllang=en_us<CR>
 " by default ; is find next. since ; is leader, hit it twice to find next
 nnoremap ;; ;
 " auto-complete tags
@@ -112,6 +113,7 @@ nnoremap <C-x> <C-x>
 " :windo diffthis {{{
 nnoremap <Leader>dg :diffget<CR>
 nnoremap <Leader>dp :diffput<CR>
+nnoremap <Leader>diff :set diffopt+=iwhite <Bar> :windo diffthis <CR>
 " }}}
 
 " Filetypes {{{
@@ -212,21 +214,6 @@ endfunction
 " WindowMgmt }}}
 
 " Functions {{{
-" If the current file name contains a fogbugz issue, open in browser
-function! OpenInFogBugz()
-    let issueNo = matchlist(expand('%'), 'BugzID-\(\d\+\)')
-	if empty(issueNo)
-		echo("no")
-	else
-        if has ("win32")
-            exec "silent ! start /B https://fogbugz.forteresearch.com/f/cases/" . issueNo[1]
-        else
-            exec "silent ! sensible-browser https://fogbugz.forteresearch.com/f/cases/" . issueNo[1]
-        endif
-	endif
-endfunction
-
-nmap <Leader>is :call OpenInFogBugz()<CR>
 
 " Convert markdown to Confluence-style markdown. Not complete yet.
 nmap <Leader>con :%s/^####/h4./ge <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> %s/^    -/--/ge <Bar> %s/        -/---/ge <Bar> %s/            -/----/ge <Bar> %s/`\(.\{-}\)`/{{\1}}/ge <Bar> silent g/^\d/norm O <CR>
@@ -259,6 +246,12 @@ endfunction
 command! Bdon :silent call Bdeleteonly()
 command! Bdonly :silent call Bdeleteonly()
 
+function! UnquoteSql()
+    exe '%s/^.\{-}"//'
+    exe '%s/"\s\{-}+//'
+    exe '%s/"\s\{-};//'
+endfunction
+command! Unq :silent call UnquoteSql()
 " }}}
 
 " Todo {{{
@@ -358,10 +351,6 @@ nnoremap <leader>tp :OmniSharpAddToProject<cr>
 autocmd FileType cs nnoremap <leader>b :wa!<cr>:OmniSharpBuildAsync<cr>
 autocmd FileType cs nnoremap <F6> :wa!<cr>:OmniSharpBuildAsync<cr>
 
-" (Experimental - uses vim-dispatch or vimproc plugin) - Start the omnisharp server for the current solution
-nnoremap <leader>ss :OmniSharpStartServer<cr>
-nnoremap <leader>sp :OmniSharpStopServer<cr>
-
 "Don't ask to save when changing buffers (i.e. when jumping to a type definition)
 set hidden
 
@@ -455,13 +444,35 @@ let g:syntastic_cs_checkers = ['code_checker']
 
 " {{{ vimwiki
 let g:vimwiki_folding = 'expr'
-let g:vimwiki_list = [{'path': '/media/sam.bottoni/notes/', 'syntax': 'markdown', 'ext': '.md'},
-					 \ {'path': '~/Dropbox/AutoSync/wiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/Dropbox/AutoSync/wiki/', 'syntax': 'markdown', 'ext': '.md'}]
+
+" makes tabstop possible with ultisnips; otherwise vimwiki steals tab for table navigation
+let g:vimwiki_table_mappings = 0
+" let g:vimwiki_list = [{'path': '~/Documents', 'syntax': 'markdown', 'ext': '.md'}]
 " shift cells in a table with ease
 nmap <Leader>vwh di\F<Bar>Pi<ESC>
 nmap <Leader>vwj di\jpi<ESC>
 nmap <Leader>vwk di\kpi<ESC>
 nmap <Leader>vwl di\f<Bar>pi<ESC>
+" }}}
+
+" {{{ sql*plus
+" http://www.vim.org/scripts/script.php?script_id=2821
+" External config has varible definitions in it like:
+" let g:sqlplus_path = '/opt/oracle/instantclient_12_2/sqlplus '
+" let g:sqlplus_userid = 'myun'
+" let g:sqlplus_db = 'DBNAME'
+try
+    source ~/sqlplusconf.vim
+catch
+endtry
+" }}}
+" external variables {{{
+try
+    source ~/forte.vim
+    echo "sourced forte config"
+catch
+endtry
 " }}}
 
 " Plugins {{{
