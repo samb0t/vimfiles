@@ -470,7 +470,6 @@ endtry
 " external variables {{{
 try
     source ~/forte.vim
-    echo "sourced forte config"
 catch
 endtry
 " }}}
