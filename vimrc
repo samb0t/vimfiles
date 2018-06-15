@@ -19,6 +19,9 @@ set ignorecase
 set smartcase
 set background=dark
 set guioptions-=T "remove toolbar
+set guioptions-=m "remove menubar
+set guioptions-=r "remove right scroll
+set guioptions-=L "remove left scroll
 set tabstop=4 softtabstop=4 expandtab shiftwidth=4
 set nobomb "remove byte order mark
 set number
@@ -28,6 +31,10 @@ set laststatus=2 " always show status line
 set splitbelow " open splits to the bottom
 set clipboard=unnamedplus " y is "+y by default for easier copy/paste
 set ttimeoutlen=2 " helps escape from insert faster when in terminal
+set modelines=1
+set modeline
+" linenum in netrw
+let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " }}}
 
 " Snips {{{
@@ -53,7 +60,7 @@ inoremap <C-L> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
 " generate a GUID; just type guid somewhere!
 nnoremap <Leader>gu :py import uuid<CR>:s/guid/\=pyeval('str(uuid.uuid4()).upper()')/ <Bar> :noh<CR>
 " generate markup vim footer
-nmap <Leader>foot Go<!--<Enter>%% vim:tw=80<Enter>--><ESC>:w<CR>:e %<Enter>
+nmap <Leader>foot Go%% vim:tw=80<ESC>:w<CR>:e %<Enter>
 " }}}
 
 " FileIO {{{
@@ -104,7 +111,7 @@ nnoremap <F5> :w<CR> :silent make<CR>
 "Paste today's date
 nnoremap <Leader>dt "=strftime("%m/%d/%y")<CR>p
 "open file in new browser tab
-nmap <Leader>ch :silent !chrome chrome:\\newtab "%"<CR>
+nmap <Leader>ch :silent !chrome chrome:\\newtab expand("%:p")<CR>
 "increment decrement ints to not interfere with tmux
 nnoremap <C-z> <C-a>
 nnoremap <C-x> <C-x>
@@ -118,7 +125,8 @@ nnoremap <Leader>diff :set diffopt+=iwhite <Bar> :windo diffthis <CR>
 
 " Filetypes {{{
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
-au BufRead,BufNewFile *.md set encoding=utf-8 filetype=vimwiki fileencoding=utf-8
+au BufRead,BufNewFile *.md set encoding=utf-8 filetype=vimwiki fileencoding=utf-8 tw=80
+au BufEnter,BufNew *.md nnoremap <Leader>pd :let @+ = system("pandoc -t html " .  shellescape(expand("%:p")))<CR>
 "cwm is an extension I made up for confluence wiki markup syntax
 au BufRead,BufNewFile *.cwm set filetype=confluencewiki
 au BufRead,BufNewFile *.cshtml set filetype=html
@@ -126,6 +134,10 @@ au BufRead,BufNewFile *.apxc set filetype=apex
 au BufRead,BufNewFile *.csx set filetype=cs
 au BufRead,BufNewFile *.mmd set filetype=plantuml
 set fileencodings=iso-2022-jp,euc-jp,cp932,utf8,default,latin1
+au FileType gitcommit set tw=80
+au FileType hgcommit set tw=80
+
+au FileType hgcommit g/case\/\d\+/exe "norm f/lyiwggiBugzID: \<esc>pA - "
 " }}}
 
 " OS Specific {{{
@@ -217,6 +229,7 @@ endfunction
 
 " Convert markdown to Confluence-style markdown. Not complete yet.
 nmap <Leader>con :%s/^####/h4./ge <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> %s/^    -/--/ge <Bar> %s/        -/---/ge <Bar> %s/            -/----/ge <Bar> %s/`\(.\{-}\)`/{{\1}}/ge <Bar> silent g/^\d/norm O <CR>
+
 " like :on :only, except it actually deletes each buffer but the current
 function! Buflist()
     redir => bufnames
@@ -252,6 +265,9 @@ function! UnquoteSql()
     exe '%s/"\s\{-};//'
 endfunction
 command! Unq :silent call UnquoteSql()
+
+" If you forget to open somthing as su, force a save anyways
+command! W :w !sudo tee %
 " }}}
 
 " Todo {{{
@@ -440,6 +456,7 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_cs_checkers = ['syntax']
 let g:syntastic_cs_checkers = ['code_checker']
+let g:syntastic_java_javac_options = '-Xlint -Xlint:-serial'
 " }}}
 
 " {{{ vimwiki
@@ -467,6 +484,7 @@ try
 catch
 endtry
 " }}}
+
 " external variables {{{
 try
     source ~/forte.vim
