@@ -112,6 +112,7 @@ nnoremap <F5> :w<CR> :silent make<CR>
 nnoremap <Leader>dt "=strftime("%m/%d/%y")<CR>p
 "open file in new browser tab
 nmap <Leader>ch :silent !chrome chrome:\\newtab expand("%:p")<CR>
+nmap <Leader>br :silent exe '!google-chrome ' . expand("%:p")<CR>
 "increment decrement ints to not interfere with tmux
 nnoremap <C-z> <C-a>
 nnoremap <C-x> <C-x>
