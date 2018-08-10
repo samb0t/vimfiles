@@ -91,6 +91,11 @@ nmap <Leader>ed :e %:h<CR>
 " Open vimgrep and put the cursor in the right position
 nmap <leader>gd :vimgrep // %:p:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 nmap <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left>
+" grep project (if there is a tags file present)
+nmap <Leader>gp :execute ':vimgrep // ' .  fnamemodify(join(tagfiles(), ','), ':p:h') . '/**/*.*'<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+" highlight lines that do NOT contain a word
+nmap <Leader>not /^\(.*.*\)\@!.*$<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+set wildignore+=target/**
 "copies current filepath to clipboard
 if has("win32") || has("win16")
 nmap <Leader>pa :let @* = expand("%:p")<CR>
@@ -112,7 +117,12 @@ nnoremap <F5> :w<CR> :silent make<CR>
 nnoremap <Leader>dt "=strftime("%m/%d/%y")<CR>p
 "open file in new browser tab
 nmap <Leader>ch :silent !chrome chrome:\\newtab expand("%:p")<CR>
-nmap <Leader>br :silent exe '!google-chrome ' . expand("%:p")<CR>
+
+function! OpenInBrowser()
+    silent execute "!google-chrome " . expand("%:p")
+    redraw!
+endfunction
+nmap <Leader>br :call OpenInBrowser()<CR>
 "increment decrement ints to not interfere with tmux
 nnoremap <C-z> <C-a>
 nnoremap <C-x> <C-x>
@@ -121,12 +131,27 @@ nnoremap <C-x> <C-x>
 " :windo diffthis {{{
 nnoremap <Leader>dg :diffget<CR>
 nnoremap <Leader>dp :diffput<CR>
-nnoremap <Leader>diff :set diffopt+=iwhite <Bar> :windo diffthis <CR>
+nnoremap <Leader>diff :set diffopt+=iwhite <Bar> :set diffopt+=icase <Bar> :windo diffthis <CR>
 " }}}
 
 " Filetypes {{{
 au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest set filetype=xml
 au BufRead,BufNewFile *.md set encoding=utf-8 filetype=vimwiki fileencoding=utf-8 tw=80
+
+fun s:vwikisyn()
+    syn match pluses "^+.*+\s\+$"
+    syn match header "^[A-Z ]\+[: ]\+$"
+    syn match details "^\[.*\]\s\+$"
+    hi def link pluses String
+    hi def link header Identifier
+    hi def link details Statement
+endfun
+
+augroup vwiki_syn
+  autocmd!
+  autocmd Syntax vimwiki call s:vwikisyn()
+augroup end
+
 au BufEnter,BufNew *.md nnoremap <Leader>pd :let @+ = system("pandoc -t html " .  shellescape(expand("%:p")))<CR>
 "cwm is an extension I made up for confluence wiki markup syntax
 au BufRead,BufNewFile *.cwm set filetype=confluencewiki
@@ -299,6 +324,10 @@ nnoremap <Leader>ls :Unite -quick-match buffer<cr>
 
 " grep ctags
 set tags=./tags;/
+set wildmenu " for listing possible options with `:tag /SomeTag`
+":h tag
+"CTRL-] - go to def
+"Below won't work without neoinclude; get rid of unite-tag?
 nnoremap <Leader>gc :Unite -start-insert tag<cr>
 
 " Unite }}}
@@ -458,6 +487,8 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_cs_checkers = ['syntax']
 let g:syntastic_cs_checkers = ['code_checker']
 let g:syntastic_java_javac_options = '-Xlint -Xlint:-serial'
+
+nnoremap <Leader>st :SyntasticToggleMode<CR>
 " }}}
 
 " {{{ vimwiki

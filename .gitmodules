@@ -84,3 +84,6 @@
 [submodule "bundle/sqlplus.vim"]
 	path = bundle/sqlplus.vim
 	url = https://github.com/leucos/sqlplus.vim.git
+[submodule "bundle/vim-log-syntax"]
+	path = bundle/vim-log-syntax
+	url = https://github.com/samb0t/vim-log-syntax.git
