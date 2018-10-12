@@ -142,9 +142,11 @@ fun s:vwikisyn()
     syn match pluses "^+.*+\s\+$"
     syn match header "^[A-Z ]\+[: ]\+$"
     syn match details "^\[.*\]\s\+$"
+    syn match dry /is able to\|in order to\|so that\|red flag/
     hi def link pluses String
     hi def link header Identifier
     hi def link details Statement
+    hi def link dry Error
 endfun
 
 augroup vwiki_syn
@@ -488,7 +490,7 @@ let g:syntastic_cs_checkers = ['syntax']
 let g:syntastic_cs_checkers = ['code_checker']
 let g:syntastic_java_javac_options = '-Xlint -Xlint:-serial'
 
-nnoremap <Leader>st :SyntasticToggleMode<CR>
+nnoremap <Leader>syn :SyntasticToggleMode<CR>
 " }}}
 
 " {{{ vimwiki
