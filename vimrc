@@ -140,8 +140,8 @@ au BufRead,BufNewFile *.md set encoding=utf-8 filetype=vimwiki fileencoding=utf-
 
 fun s:vwikisyn()
     syn match pluses "^+.*+\s\+$"
-    syn match header "^[A-Z ]\+[: ]\+$"
-    syn match details "^\[.*\]\s\+$"
+    syn match header "^[A-Z- ]\+[: ]\+$"
+    syn match details "\[.*\]\s\+$"
     syn match dry /is able to\|in order to\|so that\|red flag/
     hi def link pluses String
     hi def link header Identifier
@@ -501,10 +501,10 @@ let g:vimwiki_list = [{'path': '~/Dropbox/AutoSync/wiki/', 'syntax': 'markdown',
 let g:vimwiki_table_mappings = 0
 " let g:vimwiki_list = [{'path': '~/Documents', 'syntax': 'markdown', 'ext': '.md'}]
 " shift cells in a table with ease
-nmap <Leader>vwh di\F<Bar>Pi<ESC>
+nmap <Leader>vwh di\F<Bar>Pi<ESC>bb
 nmap <Leader>vwj di\jpi<ESC>
 nmap <Leader>vwk di\kpi<ESC>
-nmap <Leader>vwl di\f<Bar>pi<ESC>
+nmap <Leader>vwl di\f<Bar>pi<ESC>ww
 " }}}
 
 " {{{ sql*plus
