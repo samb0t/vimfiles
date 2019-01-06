@@ -48,7 +48,15 @@ vnoremap kj <ESC>
 xnoremap kj <ESC>
 
 "set encryption to something more secure. pkzip is default
-set cm=blowfish
+
+if !has('nvim')
+    set cm=blowfish
+    if !has('gui_running')
+        set term=xterm
+    endif
+else
+    tnoremap kj <C-\><C-n>
+endif
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
 nmap <Leader>sp :set spell! spelllang=en_us <Bar> hi SpellBad cterm=underline <CR>
 " by default ; is find next. since ; is leader, hit it twice to find next
@@ -564,7 +572,6 @@ else
     set encoding=utf-8
     inoremap <Char-0x07F> <BS>
     nnoremap <Char-0x07F> <BS>
-    set term=xterm
     set t_Co=256
     let &t_AB="\e[48;5;%dm"
     let &t_AF="\e[38;5;%dm"
