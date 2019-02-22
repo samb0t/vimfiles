@@ -53,6 +53,8 @@ set cm=blowfish
 nmap <Leader>sp :set spell! spelllang=en_us<CR>
 " by default ; is find next. since ; is leader, hit it twice to find next
 nnoremap ;; ;
+" remap the black hole register to quick delete stuff you don't want in the default
+nnoremap "" "_
 " auto-complete tags
 inoremap <// </<C-X><C-O><ESC>F<i
 " use vim as calculator in insert mode
