@@ -406,6 +406,15 @@ set hidden
 
 " OmniSharp }}}
 
+" Java {{{
+function! RunJava()
+	exe ":! javac %"
+	exe ":! java %:r"
+endfunction
+
+autocmd FileType java command! Run :call RunJava()
+" /Java }}}
+
 " UltiSnips {{{
  let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnips"]
 " }}}
