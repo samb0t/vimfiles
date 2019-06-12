@@ -157,6 +157,7 @@ augroup vwiki_syn
 augroup end
 
 au BufEnter,BufNew *.md nnoremap <Leader>pd :let @+ = system("pandoc -t html " .  shellescape(expand("%:p")))<CR>
+au BufEnter,BufNew *.md nnoremap <Leader>vwd :norm ysiW].i<CR>
 "cwm is an extension I made up for confluence wiki markup syntax
 au BufRead,BufNewFile *.cwm set filetype=confluencewiki
 au BufRead,BufNewFile *.cshtml set filetype=html
@@ -513,8 +514,8 @@ let g:vimwiki_table_mappings = 0
 " let g:vimwiki_list = [{'path': '~/Documents', 'syntax': 'markdown', 'ext': '.md'}]
 " shift cells in a table with ease
 nmap <Leader>vwh di\F<Bar>Pi<ESC>bb
-nmap <Leader>vwj di\jpi<ESC>
-nmap <Leader>vwk di\kpi<ESC>
+nmap <Leader>vwj F<Bar>"ydi\a<ESC>j"zdi\<ESC>"ypba<ESC>k"zpba<ESC>F<Bar>
+nmap <Leader>vwk F<Bar>"ydi\a<ESC>k"zdi\<ESC>"ypba<ESC>j"zpba<ESC>F<Bar>
 nmap <Leader>vwl di\f<Bar>pi<ESC>ww
 " }}}
 
