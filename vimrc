@@ -50,7 +50,7 @@ xnoremap kj <ESC>
 "set encryption to something more secure. pkzip is default
 set cm=blowfish
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
-nmap <Leader>sp :set spell! spelllang=en_us<CR>
+nmap <Leader>sp :set spell! spelllang=en_us <Bar> hi SpellBad cterm=underline <CR>
 " by default ; is find next. since ; is leader, hit it twice to find next
 nnoremap ;; ;
 " remap the black hole register to quick delete stuff you don't want in the default
@@ -491,6 +491,7 @@ set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
+" let g:syntastic_debug=33 " uncomment for debugging
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
@@ -501,6 +502,9 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_cs_checkers = ['syntax']
 let g:syntastic_cs_checkers = ['code_checker']
 let g:syntastic_java_javac_options = '-Xlint -Xlint:-serial'
+
+let g:syntastic_markdown_mdl_exec = 'markdownlint'
+let g:syntastic_markdown_mdl_args = '-c ~/.markdownlint.json'
 
 nnoremap <Leader>syn :SyntasticToggleMode<CR>
 " }}}
@@ -514,8 +518,8 @@ let g:vimwiki_table_mappings = 0
 " let g:vimwiki_list = [{'path': '~/Documents', 'syntax': 'markdown', 'ext': '.md'}]
 " shift cells in a table with ease
 nmap <Leader>vwh di\F<Bar>Pi<ESC>bb
-nmap <Leader>vwj F<Bar>"ydi\a<ESC>j"zdi\<ESC>"ypba<ESC>k"zpba<ESC>F<Bar>
-nmap <Leader>vwk F<Bar>"ydi\a<ESC>k"zdi\<ESC>"ypba<ESC>j"zpba<ESC>F<Bar>
+nmap <Leader>vwj mz"ydi\a<ESC>j"zdi\<ESC>"ypba<ESC>k"zpba<ESC>`zj
+nmap <Leader>vwk mz"ydi\a<ESC>k"zdi\<ESC>"ypba<ESC>j"zpba<ESC>`zk
 nmap <Leader>vwl di\f<Bar>pi<ESC>ww
 " }}}
 
