@@ -475,6 +475,12 @@ function! CompileMmd()
 	exe ":silent make ""\"".expand("%:p")."\""
 endfunction
 au BufWritePost *.mmd call CompileMmd()
+
+" LilyPond
+function! CompileLilyPond()
+    exe ":!lilypond --pdf %"
+endfunction
+au BufWritePost *.ly call CompileLilyPond()
 " }}}
 
 " LESS {{{
