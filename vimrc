@@ -57,8 +57,7 @@ if !has('nvim')
 else
     tnoremap kj <C-\><C-n>
 endif
-"toggle spellcheck: use z= for suggestions [s ]s for navigation
-nmap <Leader>sp :set spell! spelllang=en_us <Bar> hi SpellBad cterm=underline <CR>
+set cm=blowfish
 " by default ; is find next. since ; is leader, hit it twice to find next
 nnoremap ;; ;
 " remap the black hole register to quick delete stuff you don't want in the default
@@ -75,6 +74,14 @@ nmap <Leader>foot Go%% vim:tw=80<ESC>:w<CR>:e %<Enter>
 
 " FileIO {{{
 set nobackup
+
+" Make :grep use ripgrep
+if executable('rg')
+    set grepprg=rg\ --color=never\ --vimgrep
+endif
+command! -nargs=1 Ngrep grep --smart-case "<args>" -g "*.md"
+nnoremap <leader>gn :Ngrep 
+
 " http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
 autocmd BufEnter * silent! lcd %:p:h
 " grep open buffers function
@@ -93,19 +100,31 @@ function! GrepBuffers (expression)
 endfunction
 nmap <Leader>gb :call GrepBuffers("") <Bar> cw<Left><Left><Left><Left><Left><Left><Left>
 
+function! StudlyCaps()
+   exec "norm! $"
+   let columns = range(1, col('.'))
+   for c in columns
+       if c % 2 == 0
+           call cursor('.', c)     
+           exec "norm! ~"
+       endif    
+   endfor
+endfunction
+nmap <Leader>SC :call StudlyCaps() <CR>
+
 " http://vim.wikia.com/wiki/Find_in_files_within_Vim
 " Search for word under cursor in subdirectories
 nmap <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 " edit file's current directory
 nmap <Leader>ed :e %:h<CR>
 " Open vimgrep and put the cursor in the right position
-nmap <leader>gd :vimgrep // %:p:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+nmap <leader>gg :vimgrep // %:p:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 nmap <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left>
 " grep project (if there is a tags file present)
 nmap <Leader>gp :execute ':vimgrep // ' .  fnamemodify(join(tagfiles(), ','), ':p:h') . '/**/*.*'<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 " highlight lines that do NOT contain a word
 nmap <Leader>not /^\(.*.*\)\@!.*$<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-set wildignore+=target/**
+set wildignore+=**/target/**,**/node_modules/**
 "copies current filepath to clipboard
 if has("win32") || has("win16")
 nmap <Leader>pa :let @* = expand("%:p")<CR>
@@ -124,12 +143,15 @@ nmap <Leader>A A;<ESC>
 "shortcut for using the built-in :make
 nnoremap <F5> :w<CR> :silent make<CR>
 "Paste today's date
-nnoremap <Leader>dt "=strftime("%m/%d/%y")<CR>p
+nnoremap <Leader>dt "=strftime("%m-%d-%y")<CR>p
+"toggle spellcheck: use z= for suggestions [s ]s for navigation
+" nmap <Leader>sp :set spell! spelllang=en_us <Bar> hi SpellBad cterm=underline <CR>
+nmap <Leader>sp :set spell! <CR>
 "open file in new browser tab
 nmap <Leader>ch :silent !chrome chrome:\\newtab expand("%:p")<CR>
 
 function! OpenInBrowser()
-    silent execute "!google-chrome " . expand("%:p")
+    silent execute "!google-chrome " . expand("%:p") " > /dev/null 2>&1 & disown"
     redraw!
 endfunction
 nmap <Leader>br :call OpenInBrowser()<CR>
@@ -165,6 +187,7 @@ augroup vwiki_syn
 augroup end
 
 au BufEnter,BufNew *.md nnoremap <Leader>pd :let @+ = system("pandoc -t html " .  shellescape(expand("%:p")))<CR>
+au BufEnter,BufNew *.md nnoremap <Leader>cm :!commonmark %> %:r.html<CR>
 au BufEnter,BufNew *.md nnoremap <Leader>vwd :norm ysiW].i<CR>
 "cwm is an extension I made up for confluence wiki markup syntax
 au BufRead,BufNewFile *.cwm set filetype=confluencewiki
@@ -172,7 +195,7 @@ au BufRead,BufNewFile *.cshtml set filetype=html
 au BufRead,BufNewFile *.apxc set filetype=apex
 au BufRead,BufNewFile *.csx set filetype=cs
 au BufRead,BufNewFile *.mmd set filetype=plantuml
-set fileencodings=iso-2022-jp,euc-jp,cp932,utf8,default,latin1
+"set fileencodings=iso-2022-jp,euc-jp,cp932,utf8,default,latin1
 au FileType gitcommit set tw=80
 au FileType hgcommit set tw=80
 
@@ -336,6 +359,7 @@ nnoremap <Leader>y :Unite history/yank<cr>
 nnoremap <Leader>ls :Unite -quick-match buffer<cr>
 
 " grep ctags
+" First run: ctags -R .
 set tags=./tags;/
 set wildmenu " for listing possible options with `:tag /SomeTag`
 ":h tag
@@ -454,7 +478,7 @@ endif
 if has ("win32")
 	let g:plantuml_executable_script = 'java -jar C:\bin\java\plantuml.jar'
 else
-	let g:plantuml_executable_script = 'java -jar /bin/java/plantuml.jar'
+	let g:plantuml_executable_script = 'plantuml'
 endif
 function! CompileUml()
 	exe ":silent make ""\"".expand("%:p")."\""
@@ -567,12 +591,12 @@ source $VIMRUNTIME/macros/matchit.vim
 
 " Post-pathogen infect {{{
 if has("gui_running")
-	colorscheme hybrid_material
+	colorscheme solarized
     set encoding=utf-8
-    set guifont=powerline\ consolas,consolas:h10:cANSI
+    set guifont=
     set lines=999
     set columns=999
-    let g:airline_theme='hybrid'
+    let g:airline_theme='solarized'
 else
     set termencoding=utf-8
     set encoding=utf-8
@@ -581,13 +605,18 @@ else
     set t_Co=256
     let &t_AB="\e[48;5;%dm"
     let &t_AF="\e[38;5;%dm"
+    let &t_Cs = "\e[4:3m"
+    let &t_Ce = "\e[4:0m"
     let g:solarized_termcolors=256
     let g:solarized_termtrans=1
     set background=dark
     let g:airline_theme='solarized'
     colorscheme solarized
+    highlight clear SpellBad
+    highlight SpellBad cterm=underline
     highlight LineNr ctermbg=none
 endif
+
 " Airline - add 'indent' to track mixed indentation
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#checks = [ 'trailing' ]
