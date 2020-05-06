@@ -57,7 +57,6 @@ if !has('nvim')
 else
     tnoremap kj <C-\><C-n>
 endif
-set cm=blowfish
 " by default ; is find next. since ; is leader, hit it twice to find next
 nnoremap ;; ;
 " remap the black hole register to quick delete stuff you don't want in the default
