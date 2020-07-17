@@ -80,6 +80,8 @@ if executable('rg')
 endif
 command! -nargs=1 Ngrep grep --smart-case "<args>" -g "*.md"
 nnoremap <leader>gn :Ngrep 
+command! -nargs=1 Agrep grep --smart-case "<args>" -g "*.*"
+nnoremap <leader>ga :Agrep 
 
 " http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
 autocmd BufEnter * silent! lcd %:p:h
@@ -143,6 +145,12 @@ nmap <Leader>A A;<ESC>
 nnoremap <F5> :w<CR> :silent make<CR>
 "Paste today's date
 nnoremap <Leader>dt "=strftime("%m-%d-%y")<CR>p
+"Add a week to a mm-dd-yy date
+nnoremap <Leader>week 
+    \:py3 from datetime import datetime<CR>
+    \:py3 from datetime import timedelta<CR>
+    \:s/\d\d-\d\d-\d\d/\=py3eval('(datetime.strptime(vim.eval("submatch(0)"), "%m-%d-%y") +
+    \timedelta(days=7)).strftime("%m-%d-%y")')/
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
 " nmap <Leader>sp :set spell! spelllang=en_us <Bar> hi SpellBad cterm=underline <CR>
 nmap <Leader>sp :set spell! <CR>
@@ -157,6 +165,8 @@ nmap <Leader>br :call OpenInBrowser()<CR>
 "increment decrement ints to not interfere with tmux
 nnoremap <C-z> <C-a>
 nnoremap <C-x> <C-x>
+nnoremap <Leader>img :!imvr <cfile>&<CR> <CR>
+nnoremap <Leader>feh :!feh <cfile>&<CR> <CR>
 " }}}
 
 " :windo diffthis {{{
@@ -193,7 +203,7 @@ au BufRead,BufNewFile *.cwm set filetype=confluencewiki
 au BufRead,BufNewFile *.cshtml set filetype=html
 au BufRead,BufNewFile *.apxc set filetype=apex
 au BufRead,BufNewFile *.csx set filetype=cs
-au BufRead,BufNewFile *.mmd set filetype=plantuml
+au BufRead,BufNewFile *.mmd set filetype=sequence
 "set fileencodings=iso-2022-jp,euc-jp,cp932,utf8,default,latin1
 au FileType gitcommit set tw=80
 au FileType hgcommit set tw=80
@@ -490,10 +500,9 @@ autocmd Filetype plantuml let &l:makeprg=s:makecommand
 " }}}
 
 " Mermaid.js (make is overwriting plantuml settings) {{{
-" Make sure mermaid and phantomjs are npm installed globally
-let g:mermaid_executable_script = 'mermaid'
-let s:makemermaid=g:mermaid_executable_script." %"
-autocmd Filetype plantuml let &l:makeprg=s:makemermaid
+let g:mermaid_executable_script = "~/node_modules/.bin/mmdc"
+let s:makemermaid=g:mermaid_executable_script." -i % -o %:r.png -b white -C %:r.css"
+autocmd Filetype sequence let &l:makeprg=s:makemermaid
 function! CompileMmd()
 	exe ":silent make ""\"".expand("%:p")."\""
 endfunction
@@ -548,7 +557,7 @@ nnoremap <Leader>syn :SyntasticToggleMode<CR>
 
 " {{{ vimwiki
 let g:vimwiki_folding = 'expr'
-let g:vimwiki_list = [{'path': '~/Dropbox/AutoSync/wiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/wiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " makes tabstop possible with ultisnips; otherwise vimwiki steals tab for table navigation
 let g:vimwiki_table_mappings = 0

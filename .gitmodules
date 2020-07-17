@@ -87,3 +87,6 @@
 [submodule "bundle/vim-log-syntax"]
 	path = bundle/vim-log-syntax
 	url = https://github.com/samb0t/vim-log-syntax.git
+[submodule "bundle/vim-diagram"]
+	path = bundle/vim-diagram
+	url = https://github.com/zhaozg/vim-diagram.git
