@@ -207,8 +207,6 @@ au BufRead,BufNewFile *.mmd set filetype=sequence
 "set fileencodings=iso-2022-jp,euc-jp,cp932,utf8,default,latin1
 au FileType gitcommit set tw=80
 au FileType hgcommit set tw=80
-
-au FileType hgcommit g/case\/\d\+/exe "norm f/lyiwggiBugzID: \<esc>pA - "
 " }}}
 
 " OS Specific {{{
@@ -352,31 +350,12 @@ nnoremap <Leader>tu :s/\(\s*[-+*]\?\s*\)\[x\]/\1[ ]/ <Bar> :noh<cr>
 nnoremap <Leader>gt :vimgrep /\[ \]/ % <Bar> cw<CR>
 " }}}
 
-" Unite {{{
-
-" (see http://usevim.com/2013/06/19/unite/)
-" Also, http://bling.github.io/blog/2013/06/02/unite-dot-vim-the-plugin-you-didnt-know-you-need/
-
-" search file dir and immediately fuzzy find
-nnoremap <Leader>f :Unite -start-insert file_rec<CR>
-
-" search yank history
-let g:unite_source_history_yank_enable = 1
-nnoremap <Leader>y :Unite history/yank<cr>
-
-" quick buffer switching
-nnoremap <Leader>ls :Unite -quick-match buffer<cr>
-
+" {{{ Tags
 " grep ctags
 " First run: ctags -R .
 set tags=./tags;/
 set wildmenu " for listing possible options with `:tag /SomeTag`
-":h tag
-"CTRL-] - go to def
-"Below won't work without neoinclude; get rid of unite-tag?
-nnoremap <Leader>gc :Unite -start-insert tag<cr>
-
-" Unite }}}
+" }}} Tags
 
 " OmniSharp (Most from https://github.com/OmniSharp/omnisharp-vim examples) {{{
 " Code documentation to be split below rather than above
@@ -613,8 +592,11 @@ else
     set t_Co=256
     let &t_AB="\e[48;5;%dm"
     let &t_AF="\e[38;5;%dm"
-    let &t_Cs = "\e[4:3m"
-    let &t_Ce = "\e[4:0m"
+    try
+        let &t_Cs = "\e[4:3m"
+        let &t_Ce = "\e[4:0m"
+    catch
+    endtry
     let g:solarized_termcolors=256
     let g:solarized_termtrans=1
     set background=dark

@@ -32,9 +32,6 @@
 [submodule "bundle/vim-dispatch"]
 	path = bundle/vim-dispatch
 	url = https://github.com/tpope/vim-dispatch.git
-[submodule "bundle/unite.vim"]
-	path = bundle/unite.vim
-	url = https://github.com/Shougo/unite.vim.git
 [submodule "bundle/vim-csharp"]
 	path = bundle/vim-csharp
 	url = git://github.com/OrangeT/vim-csharp.git
@@ -78,9 +75,6 @@
 [submodule "bundle/vim-autotag"]
 	path = bundle/vim-autotag
 	url = git://github.com/craigemery/vim-autotag.git
-[submodule "bundle/unite-tag"]
-	path = bundle/unite-tag
-	url = https://github.com/tsukkee/unite-tag.git
 [submodule "bundle/sqlplus.vim"]
 	path = bundle/sqlplus.vim
 	url = https://github.com/leucos/sqlplus.vim.git
