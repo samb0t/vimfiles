@@ -357,6 +357,27 @@ set tags=./tags;/
 set wildmenu " for listing possible options with `:tag /SomeTag`
 " }}} Tags
 
+" {{{ FindFiles
+
+function! TagDir () 
+    return fnamemodify(join(tagfiles(), ','), ':p:h')
+endfunction
+
+" Look for a tags file, implying project-level search or provide
+" base directory as second arg
+function! Fd (expression,...)
+    let l:basedir = TagDir()
+    if a:0 > 0
+        let l:basedir = a:1
+    endif
+    exec "call setloclist(0, map(systemlist('fd ".a:expression." ".l:basedir."'), {_, p -> {'filename': p}}))"
+    exec "lopen"
+endfunction 
+
+nnoremap <Leader>fd :call Fd()<Left>
+
+" }}} FindFiles
+
 " OmniSharp (Most from https://github.com/OmniSharp/omnisharp-vim examples) {{{
 " Code documentation to be split below rather than above
 
