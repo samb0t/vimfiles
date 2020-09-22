@@ -82,6 +82,11 @@ command! -nargs=1 Ngrep grep --smart-case "<args>" -g "*.md"
 nnoremap <leader>gn :Ngrep 
 command! -nargs=1 Agrep grep --smart-case "<args>" -g "*.*"
 nnoremap <leader>ga :Agrep 
+function! GrepProject(findArgs)
+    echo "grep --smart-case " .a:findArgs. " -g " .fnamemodify(join(tagfiles(), ','), ':p:h'). "/**/*.*"
+endfunction
+" grep project (if there is a tags file present)
+nmap <Leader>gp :execute ':vimgrep // ' .  fnamemodify(join(tagfiles(), ','), ':p:h') . '/**/*.*'<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 " http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
 autocmd BufEnter * silent! lcd %:p:h
@@ -150,9 +155,10 @@ nnoremap <Leader>week
     \:py3 from datetime import datetime<CR>
     \:py3 from datetime import timedelta<CR>
     \:s/\d\d-\d\d-\d\d/\=py3eval('(datetime.strptime(vim.eval("submatch(0)"), "%m-%d-%y") +
-    \timedelta(days=7)).strftime("%m-%d-%y")')/
+    \timedelta(weeks=1)).strftime("%m-%d-%y")')/
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
 " nmap <Leader>sp :set spell! spelllang=en_us <Bar> hi SpellBad cterm=underline <CR>
+nnoremap <Leader>box :.!toilet -f term -F border<CR>
 nmap <Leader>sp :set spell! <CR>
 "open file in new browser tab
 nmap <Leader>ch :silent !chrome chrome:\\newtab expand("%:p")<CR>
@@ -173,6 +179,7 @@ nnoremap <Leader>feh :!feh <cfile>&<CR> <CR>
 nnoremap <Leader>dg :diffget<CR>
 nnoremap <Leader>dp :diffput<CR>
 nnoremap <Leader>diff :set diffopt+=iwhite <Bar> :set diffopt+=icase <Bar> :windo diffthis <CR>
+nnoremap <Leader>ndif :windo diffoff<CR>
 " }}}
 
 " Filetypes {{{
