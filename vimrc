@@ -370,8 +370,8 @@ function! Fd (expression,...)
     if a:0 > 0
         let l:basedir = a:1
     endif
-    exec "call setloclist(0, map(systemlist('fd ".a:expression." ".l:basedir."'), {_, p -> {'filename': p}}))"
-    exec "lopen"
+    exec "call setqflist(map(systemlist('fd ".a:expression." ".l:basedir."'), {_, p -> {'filename': p}}))"
+    exec "copen"
 endfunction 
 
 nnoremap <Leader>fd :call Fd()<Left>
