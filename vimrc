@@ -74,6 +74,11 @@ nmap <Leader>foot Go%% vim:tw=80<ESC>:w<CR>:e %<Enter>
 " FileIO {{{
 set nobackup
 
+"function for getting the root of a project dir via the tags file
+function! TagDir () 
+    return fnamemodify(join(tagfiles(), ','), ':p:h')
+endfunction
+
 " Make :grep use ripgrep
 if executable('rg')
     set grepprg=rg\ --color=never\ --vimgrep
@@ -82,11 +87,6 @@ command! -nargs=1 Ngrep grep --smart-case "<args>" -g "*.md"
 nnoremap <leader>gn :Ngrep 
 command! -nargs=1 Agrep grep --smart-case "<args>" -g "*.*"
 nnoremap <leader>ga :Agrep 
-function! GrepProject(findArgs)
-    echo "grep --smart-case " .a:findArgs. " -g " .fnamemodify(join(tagfiles(), ','), ':p:h'). "/**/*.*"
-endfunction
-" grep project (if there is a tags file present)
-nmap <Leader>gp :execute ':vimgrep // ' .  fnamemodify(join(tagfiles(), ','), ':p:h') . '/**/*.*'<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 
 " http://vim.wikia.com/wiki/Set_working_directory_to_the_current_file
 autocmd BufEnter * silent! lcd %:p:h
@@ -126,8 +126,6 @@ nmap <Leader>ed :e %:h<CR>
 " Open vimgrep and put the cursor in the right position
 nmap <leader>gg :vimgrep // %:p:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 nmap <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left>
-" grep project (if there is a tags file present)
-nmap <Leader>gp :execute ':vimgrep // ' .  fnamemodify(join(tagfiles(), ','), ':p:h') . '/**/*.*'<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 " highlight lines that do NOT contain a word
 nmap <Leader>not /^\(.*.*\)\@!.*$<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 set wildignore+=**/target/**,**/node_modules/**
@@ -202,7 +200,7 @@ augroup vwiki_syn
   autocmd Syntax vimwiki call s:vwikisyn()
 augroup end
 
-au BufEnter,BufNew *.md nnoremap <Leader>pd :let @+ = system("pandoc -t html " .  shellescape(expand("%:p")))<CR>
+au BufEnter,BufNew *.md nnoremap <Leader>pd :let @+ ='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> ' .system("pandoc -t html " .  shellescape(expand("%:p")))<CR>
 au BufEnter,BufNew *.md nnoremap <Leader>cm :!commonmark %> %:r.html<CR>
 au BufEnter,BufNew *.md nnoremap <Leader>vwd :norm ysiW].i<CR>
 "cwm is an extension I made up for confluence wiki markup syntax
@@ -366,10 +364,6 @@ set wildmenu " for listing possible options with `:tag /SomeTag`
 
 " {{{ FindFiles
 
-function! TagDir () 
-    return fnamemodify(join(tagfiles(), ','), ':p:h')
-endfunction
-
 " Look for a tags file, implying project-level search or provide
 " base directory as second arg
 function! Fd (expression,...)
@@ -381,7 +375,29 @@ function! Fd (expression,...)
     exec "copen"
 endfunction 
 
-nnoremap <Leader>fd :call Fd()<Left>
+nnoremap <Leader>fd :call Fd("")<Left><Left>
+
+function! Rg (expression,...)
+    let l:basedir = TagDir()
+    if a:0 > 0
+        let l:basedir = a:1
+        echo l:basedir
+    endif
+
+    echo l:basedir
+    let l:output = system("rg --vimgrep '".a:expression."' ".l:basedir."")
+    let l:list = split(l:output, "\n")
+    let l:ql = []
+    for l:item in l:list
+      let sit = split(l:item, ":")
+      call add(l:ql,
+          \ {"filename": sit[0], "lnum": sit[1], "col": sit[2], "text": sit[3]})
+    endfor
+    call setqflist(l:ql, 'r')
+    exec "copen"
+endfunction 
+
+nnoremap <Leader>rg :call Rg("")<Left><Left>
 
 " }}} FindFiles
 
