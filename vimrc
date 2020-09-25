@@ -69,6 +69,8 @@ inoremap <C-L> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
 nnoremap <Leader>gu :py import uuid<CR>:s/guid/\=pyeval('str(uuid.uuid4()).upper()')/ <Bar> :noh<CR>
 " generate markup vim footer
 nmap <Leader>foot Go%% vim:tw=80<ESC>:w<CR>:e %<Enter>
+
+command! Gitautocommit :!git add -A && git commit -m 'gitautocommit' && git push
 " }}}
 
 " FileIO {{{
@@ -657,4 +659,4 @@ let g:airline#extensions#whitespace#checks = [ 'trailing' ]
 let g:airline#extensions#whitespace#symbol = '!'
 " }}}
 
-" vim:fdm=marker:foldlevel=0
+" vim:fdm=marker:foldlevel=0:tw=0
