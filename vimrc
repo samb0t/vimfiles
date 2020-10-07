@@ -126,7 +126,6 @@ nmap <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 " edit file's current directory
 nmap <Leader>ed :e %:h<CR>
 " Open vimgrep and put the cursor in the right position
-nmap <leader>gg :vimgrep // %:p:h/**/*.* <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 nmap <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left>
 " highlight lines that do NOT contain a word
 nmap <Leader>not /^\(.*.*\)\@!.*$<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
@@ -387,7 +386,7 @@ function! Rg (expression,...)
     endif
 
     echo l:basedir
-    let l:output = system("rg --vimgrep '".a:expression."' ".l:basedir."")
+    let l:output = system("rg --vimgrep --smart-case '".a:expression."' ".l:basedir."")
     let l:list = split(l:output, "\n")
     let l:ql = []
     for l:item in l:list
