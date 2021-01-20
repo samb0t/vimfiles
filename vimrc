@@ -162,11 +162,11 @@ nmap <Leader>sp :set spell! <CR>
 "open file in new browser tab
 nmap <Leader>ch :silent !chrome chrome:\\newtab expand("%:p")<CR>
 
-function! OpenInBrowser()
-    silent execute "!google-chrome " . expand("%:p") " > /dev/null 2>&1 & disown"
+function! OpenInFirefox()
+    silent execute "!firefox " . expand("%:p") " > /dev/null 2>&1 & disown"
     redraw!
 endfunction
-nmap <Leader>br :call OpenInBrowser()<CR>
+nmap <Leader>ff :call OpenInFirefox()<CR>
 "increment decrement ints to not interfere with tmux
 nnoremap <C-z> <C-a>
 nnoremap <C-x> <C-x>
@@ -354,6 +354,8 @@ nnoremap <Leader>tx :s/\(\s*[-+*]\?\s*\)\[ \]/\1[x]/ <Bar> :noh<cr>
 nnoremap <Leader>tu :s/\(\s*[-+*]\?\s*\)\[x\]/\1[ ]/ <Bar> :noh<cr>
 " Grep for todos
 nnoremap <Leader>gt :vimgrep /\[ \]/ % <Bar> cw<CR>
+" Remove todo
+nnoremap <Leader>tr :s/\[ \] // <Bar> :noh<CR>
 " }}}
 
 " {{{ Tags
@@ -492,6 +494,9 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 " let g:syntastic_debug=33 " uncomment for debugging
+let g:syntastic_mode_map = {
+    \ "mode": "active",
+    \ "passive_filetypes": ["java"] }
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 0
