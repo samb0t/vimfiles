@@ -81,3 +81,6 @@
 [submodule "bundle/vim-diagram"]
 	path = bundle/vim-diagram
 	url = https://github.com/zhaozg/vim-diagram.git
+[submodule "bundle/jira.vim"]
+	path = bundle/jira.vim
+	url = https://github.com/dix75/jira.vim.git
