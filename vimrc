@@ -158,6 +158,16 @@ nnoremap <Leader>week
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
 " nmap <Leader>sp :set spell! spelllang=en_us <Bar> hi SpellBad cterm=underline <CR>
 nnoremap <Leader>box :.!toilet -f term -F border<CR>
+"pretty print json:
+command! JsonFormat %!python3 -m json.tool
+
+"install boxes: run something like ':Box one two\\nnew line'
+command! -nargs=1 Box call BoxIt("<args>")
+function! BoxIt(expression)
+    silent set ve=all
+    silent execute ":r !echo '".a:expression."' | boxes -d stone"
+endfunction
+
 nmap <Leader>sp :set spell! <CR>
 "open file in new browser tab
 nmap <Leader>ch :silent !chrome chrome:\\newtab expand("%:p")<CR>
@@ -374,7 +384,7 @@ function! Fd (expression,...)
     if a:0 > 0
         let l:basedir = a:1
     endif
-    exec "call setqflist(map(systemlist('fd \"".a:expression."\" ".l:basedir."'), {_, p -> {'filename': p}}))"
+    exec "call setqflist(map(systemlist('fdfind \"".a:expression."\" ".l:basedir."'), {_, p -> {'filename': p}}))"
     exec "copen"
 endfunction 
 
