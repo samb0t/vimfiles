@@ -351,6 +351,15 @@ function! UnquoteSql()
 endfunction
 command! Unq :silent call UnquoteSql()
 
+function! PrintFormattedFileName()
+  let filename = expand('%:t:r')
+  let formatted_filename = substitute(filename, '-', ' ', 'g')
+  let formatted_filename = substitute(formatted_filename, '\v(\w)(\w*)', '\u\1\L\2', 'g')
+  let cursor_position = getpos('.')
+  call setline(cursor_position[1], getline(cursor_position[1]) . ' ' . formatted_filename)
+endfunction
+command! Fn :silent call PrintFormattedFileName()
+
 " If you forget to open somthing as su, force a save anyways
 command! W :w !sudo tee %
 " }}}
