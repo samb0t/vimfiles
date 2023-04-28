@@ -356,7 +356,7 @@ function! PrintFormattedFileName()
   let formatted_filename = substitute(filename, '-', ' ', 'g')
   let formatted_filename = substitute(formatted_filename, '\v(\w)(\w*)', '\u\1\L\2', 'g')
   let cursor_position = getpos('.')
-  call setline(cursor_position[1], getline(cursor_position[1]) . ' ' . formatted_filename)
+  call setline(cursor_position[1], getline(cursor_position[1]) . '# ' . formatted_filename)
 endfunction
 command! Fn :silent call PrintFormattedFileName()
 
