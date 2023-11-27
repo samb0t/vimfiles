@@ -187,7 +187,7 @@ nnoremap <Leader>feh :!feh <cfile>&<CR> <CR>
 " :windo diffthis {{{
 nnoremap <Leader>dg :diffget<CR>
 nnoremap <Leader>dp :diffput<CR>
-nnoremap <Leader>diff :set diffopt+=iwhite <Bar> :set diffopt+=icase <Bar> :windo diffthis <CR>
+nnoremap <Leader>diff :set diffopt+=iwhite <Bar> :set diffopt+=icase <Bar> :set diffopt+=iwhiteall <Bar> :windo diffthis <CR>
 nnoremap <Leader>ndif :windo diffoff<CR>
 " }}}
 
