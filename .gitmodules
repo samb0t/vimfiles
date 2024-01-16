@@ -69,9 +69,6 @@
 [submodule "bundle/ultisnips"]
 	path = bundle/ultisnips
 	url = https://github.com/SirVer/ultisnips.git
-[submodule "bundle/vim-autotag"]
-	path = bundle/vim-autotag
-	url = git://github.com/craigemery/vim-autotag.git
 [submodule "bundle/sqlplus.vim"]
 	path = bundle/sqlplus.vim
 	url = https://github.com/leucos/sqlplus.vim.git
