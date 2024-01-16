@@ -81,6 +81,3 @@
 [submodule "bundle/jira.vim"]
 	path = bundle/jira.vim
 	url = https://github.com/dix75/jira.vim.git
-[submodule "bundle/vim-autotag"]
-	path = bundle/vim-autotag
-	url = https://github.com/craigemery/vim-autotag.git
