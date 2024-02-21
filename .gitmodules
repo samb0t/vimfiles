@@ -84,3 +84,6 @@
 [submodule "bundle/autotag.vim"]
 	path = bundle/autotag.vim
 	url = https://github.com/craigemery/vim-autotag.git
+[submodule "bundle/copilot.vim"]
+	path = bundle/copilot.vim
+	url = https://github.com/github/copilot.vim.git

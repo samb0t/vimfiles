@@ -559,6 +559,10 @@ catch
 endtry
 " }}}
 
+" {{{ GitHub Copilot
+nnoremap <leader>gc :Copilot panel<CR>
+" }}}
+
 " external variables {{{
 try
     source ~/forte.vim
@@ -604,6 +608,7 @@ else
     highlight clear SpellBad
     highlight SpellBad cterm=underline
     highlight LineNr ctermbg=none
+    highlight CopilotSuggestion ctermfg=DarkGray
 endif
 
 " Airline - add 'indent' to track mixed indentation
