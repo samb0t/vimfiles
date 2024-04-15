@@ -529,6 +529,7 @@ let g:syntastic_java_javac_options = '-Xlint -Xlint:-serial'
 
 let g:syntastic_markdown_mdl_exec = 'markdownlint'
 let g:syntastic_markdown_mdl_args = '-c ~/.markdownlint.json'
+let g:syntastic_yaml_checkers = [ "yamllint" ]
 
 nnoremap <Leader>syn :SyntasticToggleMode<CR>
 " }}}
