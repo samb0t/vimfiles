@@ -507,31 +507,13 @@ let g:SuperTabDefaultCompletionType = "context"
 vnoremap <Leader>nu :call Renumber()<CR>
 " }}}
 
-" syntastic {{{
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-" let g:syntastic_debug=33 " uncomment for debugging
-let g:syntastic_mode_map = {
-    \ "mode": "active",
-    \ "passive_filetypes": ["java"] }
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_cs_checkers = ['syntax']
-let g:syntastic_cs_checkers = ['code_checker']
-let g:syntastic_java_javac_options = '-Xlint -Xlint:-serial'
-
-let g:syntastic_markdown_mdl_exec = 'markdownlint'
-let g:syntastic_markdown_mdl_args = '-c ~/.markdownlint.json'
-let g:syntastic_yaml_checkers = [ "yamllint" ]
-
-nnoremap <Leader>syn :SyntasticToggleMode<CR>
+" ale {{{
+let g:ale_fixers = {
+            \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'yaml': ['yamllint'],
+\   'markdown': ['markdownlint'],
+\}
+let g:ale_markdown_markdownlint_options = '-c ~/.markdownlint.json'
 " }}}
 
 " {{{ vimwiki

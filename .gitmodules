@@ -48,9 +48,6 @@
 [submodule "bundle/MatchTag"]
 	path = bundle/MatchTag
 	url = https://github.com/gregsexton/MatchTag.git
-[submodule "bundle/syntastic"]
-	path = bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
 [submodule "bundle/vim-json"]
 	path = bundle/vim-json
 	url = https://github.com/elzr/vim-json.git
@@ -87,3 +84,6 @@
 [submodule "bundle/copilot.vim"]
 	path = bundle/copilot.vim
 	url = https://github.com/github/copilot.vim.git
+[submodule "bundle/ale"]
+	path = bundle/ale
+	url = https://github.com/dense-analysis/ale
