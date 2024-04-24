@@ -67,8 +67,6 @@ inoremap <// </<C-X><C-O><ESC>F<i
 inoremap <C-L> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
 " generate a GUID; just type guid somewhere!
 nnoremap <Leader>gu :py import uuid<CR>:s/guid/\=pyeval('str(uuid.uuid4()).upper()')/ <Bar> :noh<CR>
-" generate markup vim footer
-nmap <Leader>foot Go%% vim:tw=80<ESC>:w<CR>:e %<Enter>
 
 command! Gitautocommit :!git add -A && git commit -m 'gitautocommit' && git push
 " }}}
@@ -108,18 +106,6 @@ function! GrepBuffers (expression)
 endfunction
 nmap <Leader>gb :call GrepBuffers("") <Bar> cw<Left><Left><Left><Left><Left><Left><Left>
 
-function! StudlyCaps()
-   exec "norm! $"
-   let columns = range(1, col('.'))
-   for c in columns
-       if c % 2 == 0
-           call cursor('.', c)     
-           exec "norm! ~"
-       endif    
-   endfor
-endfunction
-nmap <Leader>SC :call StudlyCaps() <CR>
-
 " http://vim.wikia.com/wiki/Find_in_files_within_Vim
 " Search for word under cursor in subdirectories
 nmap <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
@@ -145,8 +131,6 @@ nmap <Leader>o o<ESC>
 nmap <Leader>O O<ESC>
 "semicolon at end of line
 nmap <Leader>A A;<ESC>
-"shortcut for using the built-in :make
-nnoremap <F5> :w<CR> :silent make<CR>
 "Paste today's date
 nnoremap <Leader>dt "=strftime("%m-%d-%y")<CR>p
 "Add a week to a mm-dd-yy date
@@ -157,16 +141,8 @@ nnoremap <Leader>week
     \timedelta(weeks=1)).strftime("%m-%d-%y")')/
 "toggle spellcheck: use z= for suggestions [s ]s for navigation
 " nmap <Leader>sp :set spell! spelllang=en_us <Bar> hi SpellBad cterm=underline <CR>
-nnoremap <Leader>box :.!toilet -f term -F border<CR>
 "pretty print json:
 command! JsonFormat %!python3 -m json.tool
-
-"install boxes: run something like ':Box one two\\nnew line'
-command! -nargs=1 Box call BoxIt("<args>")
-function! BoxIt(expression)
-    silent set ve=all
-    silent execute ":r !echo '".a:expression."' | boxes -d stone"
-endfunction
 
 nmap <Leader>sp :set spell! <CR>
 "open file in new browser tab
@@ -180,8 +156,6 @@ nmap <Leader>ff :call OpenInFirefox()<CR>
 "increment decrement ints to not interfere with tmux
 nnoremap <C-z> <C-a>
 nnoremap <C-x> <C-x>
-nnoremap <Leader>img :!imvr <cfile>&<CR> <CR>
-nnoremap <Leader>feh :!feh <cfile>&<CR> <CR>
 " }}}
 
 " :windo diffthis {{{
@@ -212,17 +186,11 @@ augroup vwiki_syn
 augroup end
 
 au BufEnter,BufNew *.md nnoremap <Leader>pd :let @+ ='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> ' .system("pandoc -t html " .  shellescape(expand("%:p")))<CR>
-au BufEnter,BufNew *.md nnoremap <Leader>cm :!commonmark %> %:r.html<CR>
-au BufEnter,BufNew *.md nnoremap <Leader>vwd :norm ysiW].i<CR>
-"cwm is an extension I made up for confluence wiki markup syntax
-au BufRead,BufNewFile *.cwm set filetype=confluencewiki
 au BufRead,BufNewFile *.cshtml set filetype=html
-au BufRead,BufNewFile *.apxc set filetype=apex
 au BufRead,BufNewFile *.csx set filetype=cs
 au BufRead,BufNewFile *.mmd set filetype=sequence
 "set fileencodings=iso-2022-jp,euc-jp,cp932,utf8,default,latin1
 au FileType gitcommit set tw=80
-au FileType hgcommit set tw=80
 " }}}
 
 " OS Specific {{{
@@ -245,7 +213,6 @@ if has("win32") || has("win16")
 	autocmd InsertEnter * call SetRelativeNumber(0)
 	autocmd InsertLeave * call SetRelativeNumber(1)
 	let $vimfiles = '~\vimfiles'
-	let $ts = '~\Dropbox\AutoSync\wiki'
     let $sf = 'c:\bin\sfdc\workspace'
 else
 	" FileIOXnix {{{
@@ -256,7 +223,6 @@ else
 	autocmd InsertEnter * :set number
 	autocmd InsertLeave * :set relativenumber
 	let $vimfiles = '~/.vim'
-	let $ts = '~/Dropbox/AutoSync/wiki'
 endif
 " }}}
 
@@ -311,9 +277,6 @@ endfunction
 " WindowMgmt }}}
 
 " Functions {{{
-
-" Convert markdown to Confluence-style markdown. Not complete yet.
-nmap <Leader>con :%s/^####/h4./ge <Bar> %s/{{\([^}}]*\)`/{{\1}}/ge <Bar> %s/^###/h3./e <Bar> %s/^##/h2./e <Bar> %s/^#/h1./e <Bar> %s/^    -/--/ge <Bar> %s/        -/---/ge <Bar> %s/            -/----/ge <Bar> %s/`\(.\{-}\)`/{{\1}}/ge <Bar> silent g/^\d/norm O <CR>
 
 " like :on :only, except it actually deletes each buffer but the current
 function! Buflist()
@@ -436,28 +399,6 @@ autocmd FileType java command! Run :call RunJava()
  let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnips"]
 " }}}
 
-" vim-force.com {{{
-" see :help force.com
-" requires JRE, tooling-force.com, sbt, UnxUtils (Just tee.exe/touch.exe)
-if has ("win32")
-	let g:apex_backup_folder = 'C:\bin\sfdc\backups\'
-	let g:apex_temp_folder = 'C:\bin\temp'
-	let g:apex_properties_folder = 'C:\bin\sfdc\properties\'
-	let g:apex_tooling_force_dot_com_path = 'C:\bin\sfdc\tooling-force.com-0.4.0.0.jar'
-	let g:apex_binary_tee = 'C:\bin\UnxUtils\tee.exe'
-	let g:apex_binary_touch = 'C:\bin\UnxUtils\touch.exe'
-	let g:apex_workspace_path = 'C:\bin\sfdc\workspace\'
-    let g:apex_server = 1
-    let g:apex_server_timeoutSec=60*10 " allow server to wait for new connections within 10 minutes
-else
-	let g:apex_backup_folder = '/bin/sfdc/backups/'
-	let g:apex_temp_folder = '/bin/temp'
-	let g:apex_properties_folder = '/bin/sfdc/properties/'
-	let g:apex_tooling_force_dot_com_path = '/bin/sfdc/tooling-force.com-0.4.0.0.jar'
-	let g:apex_workspace_path = '/bin/sfdc/workspace/'
-endif
-" }}}
-
 " PlantUML {{{
 if has ("win32")
 	let g:plantuml_executable_script = 'java -jar C:\bin\java\plantuml.jar'
@@ -530,23 +471,15 @@ nmap <Leader>vwk mz"ydi\a<ESC>k"zdi\<ESC>"ypba<ESC>j"zpba<ESC>`zk
 nmap <Leader>vwl di\f<Bar>pi<ESC>ww
 " }}}
 
-" {{{ sql*plus
-" http://www.vim.org/scripts/script.php?script_id=2821
-" External config has varible definitions in it like:
-" let g:sqlplus_path = '/opt/oracle/instantclient_12_2/sqlplus '
-" let g:sqlplus_userid = 'myun'
-" let g:sqlplus_db = 'DBNAME'
-try
-    source ~/sqlplusconf.vim
-catch
-endtry
-" }}}
-
 " {{{ GitHub Copilot
 nnoremap <leader>gc :Copilot panel<CR>
 " }}}
 
 " external variables {{{
+try
+    source ~/sqlplusconf.vim
+catch
+endtry
 try
     source ~/forte.vim
 catch
