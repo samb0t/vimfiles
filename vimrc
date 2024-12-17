@@ -69,6 +69,8 @@ inoremap <C-L> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
 nnoremap <Leader>gu :py import uuid<CR>:s/guid/\=pyeval('str(uuid.uuid4()).upper()')/ <Bar> :noh<CR>
 
 command! Gitautocommit :!git add -A && git commit -m 'gitautocommit' && git push
+
+command! Deltrailing :%s/\s\+$//e
 " }}}
 
 " FileIO {{{
