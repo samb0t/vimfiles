@@ -1,9 +1,6 @@
 [submodule "bundle/vim-javascript"]
 	path = bundle/vim-javascript
 	url = https://github.com/pangloss/vim-javascript.git
-[submodule "bundle/javascript-libraries-syntax.vim"]
-	path = bundle/javascript-libraries-syntax.vim
-	url = https://github.com/othree/javascript-libraries-syntax.vim.git
 [submodule "bundle/vim-less"]
 	path = bundle/vim-less
 	url = https://github.com/groenewege/vim-less.git
@@ -29,16 +26,6 @@
 [submodule "tabular"]
 	path = bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
-[submodule "bundle/vim-csharp"]
-	path = bundle/vim-csharp
-	url = git://github.com/OrangeT/vim-csharp.git
-[submodule "bundle/vim-gotham"]
-	path = bundle/vim-gotham
-	url = https://github.com/whatyouhide/vim-gotham.git
-[submodule "bundle/vim-force.com"]
-	path = bundle/vim-force.com
-	url = https://github.com/neowit/vim-force.com.git
-	ignore = dirty
 [submodule "bundle/plantuml-syntax"]
 	path = bundle/plantuml-syntax
 	url = https://github.com/aklt/plantuml-syntax.git
@@ -63,21 +50,12 @@
 [submodule "bundle/vimwiki"]
 	path = bundle/vimwiki
 	url = https://github.com/vimwiki/vimwiki.git
-[submodule "bundle/ultisnips"]
-	path = bundle/ultisnips
-	url = https://github.com/SirVer/ultisnips.git
 [submodule "bundle/sqlplus.vim"]
 	path = bundle/sqlplus.vim
 	url = https://github.com/leucos/sqlplus.vim.git
 [submodule "bundle/vim-log-syntax"]
 	path = bundle/vim-log-syntax
 	url = https://github.com/samb0t/vim-log-syntax.git
-[submodule "bundle/vim-diagram"]
-	path = bundle/vim-diagram
-	url = https://github.com/zhaozg/vim-diagram.git
-[submodule "bundle/jira.vim"]
-	path = bundle/jira.vim
-	url = https://github.com/dix75/jira.vim.git
 [submodule "bundle/autotag.vim"]
 	path = bundle/autotag.vim
 	url = https://github.com/craigemery/vim-autotag.git

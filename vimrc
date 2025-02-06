@@ -397,10 +397,6 @@ endfunction
 autocmd FileType java command! Run :call RunJava()
 " /Java }}}
 
-" UltiSnips {{{
- let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnips"]
-" }}}
-
 " PlantUML {{{
 if has ("win32")
 	let g:plantuml_executable_script = 'java -jar C:\bin\java\plantuml.jar'
