@@ -29,7 +29,7 @@ set relativenumber
 set foldlevel=20 " when we have folding, start open
 set laststatus=2 " always show status line
 set splitbelow " open splits to the bottom
-set clipboard=unnamedplus " y is "+y by default for easier copy/paste
+set clipboard=unnamed " y is "+y by default for easier copy/paste
 set ttimeoutlen=2 " helps escape from insert faster when in terminal
 set modelines=1
 set modeline
@@ -316,6 +316,9 @@ function! UnquoteSql()
 endfunction
 command! Unq :silent call UnquoteSql()
 
+"requires sqlformat on the cli
+nnoremap <Leader>sql vip!sqlformat -r -k upper -s -<CR>
+
 function! PrintFormattedFileName()
   let filename = expand('%:t:r')
   let formatted_filename = substitute(filename, '-', ' ', 'g')
@@ -358,7 +361,7 @@ function! Fd (expression,...)
     if a:0 > 0
         let l:basedir = a:1
     endif
-    exec "call setqflist(map(systemlist('fdfind \"".a:expression."\" ".l:basedir."'), {_, p -> {'filename': p}}))"
+    exec "call setqflist(map(systemlist('fd \"".a:expression."\" ".l:basedir."'), {_, p -> {'filename': p}}))"
     exec "copen"
 endfunction 
 
