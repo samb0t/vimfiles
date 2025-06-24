@@ -215,7 +215,6 @@ if has("win32") || has("win16")
 	autocmd InsertEnter * call SetRelativeNumber(0)
 	autocmd InsertLeave * call SetRelativeNumber(1)
 	let $vimfiles = '~\vimfiles'
-    let $sf = 'c:\bin\sfdc\workspace'
 else
 	" FileIOXnix {{{
 	if !isdirectory($HOME . "/.vimbackups")
