@@ -538,7 +538,11 @@ endfunction
 
 function! TrailingWhitespaceLine()
   let lnum = search('\s\+$', 'nw')
-  return lnum ? '[!:' . lnum . ']' : ''
+  if mode() ==# 'n'
+    return lnum ? '[!:' . lnum . ']' : ''
+  else
+    return ''
+  endif
 endfunction
 
 let g:currentmode={
@@ -558,8 +562,9 @@ set statusline+=%{StatuslineGit()}
 set statusline+=%#LineNr#
 set statusline+=\ 
 set statusline+=\ %f
-set statusline+=%m\
+set statusline+=%m
 set statusline+=%=
+set statusline+=\ 
 set statusline+=%#CursorColumn#
 set statusline+=\ %y
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
