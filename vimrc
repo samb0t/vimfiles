@@ -459,7 +459,7 @@ let g:ale_markdown_markdownlint_options = '-c ~/.markdownlint.json'
 
 " {{{ vimwiki
 let g:vimwiki_folding = 'expr'
-let g:vimwiki_list = [{'path': '~/wiki/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path': '~/n/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " makes tabstop possible with ultisnips; otherwise vimwiki steals tab for table navigation
 let g:vimwiki_table_mappings = 0
@@ -502,7 +502,6 @@ if has("gui_running")
     set guifont=
     set lines=999
     set columns=999
-    let g:airline_theme='solarized'
 else
     set termencoding=utf-8
     set encoding=utf-8
@@ -519,18 +518,56 @@ else
     let g:solarized_termcolors=256
     let g:solarized_termtrans=1
     set background=dark
-    let g:airline_theme='solarized'
     colorscheme solarized
     highlight clear SpellBad
     highlight SpellBad cterm=underline
     highlight LineNr ctermbg=none
     highlight CopilotSuggestion ctermfg=DarkGray
 endif
+" }}}
 
-" Airline - add 'indent' to track mixed indentation
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#whitespace#checks = [ 'trailing' ]
-let g:airline#extensions#whitespace#symbol = '!'
+" Statusline {{{
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+function! TrailingWhitespaceLine()
+  let lnum = search('\s\+$', 'nw')
+  return lnum ? '[!:' . lnum . ']' : ''
+endfunction
+
+let g:currentmode={
+       \ 'n'  : 'NORMAL ',
+       \ 'v'  : 'VISUAL ',
+       \ 'V'  : 'V·Line ',
+       \ "\<C-V>" : 'V·Block ',
+       \ 'i'  : 'INSERT ',
+       \ 'R'  : 'R ',
+       \ 'Rv' : 'V·Replace ',
+       \ 'c'  : 'Command ',
+       \}
+set statusline=
+set statusline+=\ %{toupper(g:currentmode[mode()])}
+set statusline+=%#PmenuSel#
+set statusline+=%{StatuslineGit()}
+set statusline+=%#LineNr#
+set statusline+=\ 
+set statusline+=\ %f
+set statusline+=%m\
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\ %{TrailingWhitespaceLine()}
+set statusline+=\ 
 " }}}
 
 " vim:fdm=marker:foldlevel=0:tw=0
