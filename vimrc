@@ -558,9 +558,10 @@ set statusline+=%{StatuslineGit()}
 set statusline+=%#LineNr#
 set statusline+=\ 
 set statusline+=\ %f
-set statusline+=%m\
-set statusline+=%=
-set statusline+=%#CursorColumn#
+set statusline+=%m
+set statusline+=%=
+"set statusline+=%#CursorColumn#
+set statusline+=%#PmenuSel#
 set statusline+=\ %y
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
