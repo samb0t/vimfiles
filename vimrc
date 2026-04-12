@@ -429,6 +429,10 @@ function! CompileLilyPond()
     exe ":!lilypond --pdf %"
 endfunction
 au BufWritePost *.ly call CompileLilyPond()
+augroup filetypedetect
+  autocmd!
+  autocmd BufRead,BufNewFile *.ly set filetype=lilypond
+augroup END
 " }}}
 
 " LESS {{{
@@ -453,6 +457,7 @@ let g:ale_fixers = {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'yaml': ['yamllint'],
 \   'markdown': ['markdownlint'],
+\   'lilypond': ['lilypond'],
 \}
 let g:ale_markdown_markdownlint_options = '-c ~/.markdownlint.json'
 " }}}
