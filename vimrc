@@ -114,8 +114,6 @@ nmap <Leader>gb :call GrepBuffers("") <Bar> cw<Left><Left><Left><Left><Left><Lef
 nmap <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 " edit file's current directory
 nmap <Leader>ed :e %:h<CR>
-" Open vimgrep and put the cursor in the right position
-nmap <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left>
 " highlight lines that do NOT contain a word
 nmap <Leader>not /^\(.*.*\)\@!.*$<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 set wildignore+=**/target/**,**/node_modules/**
@@ -173,13 +171,7 @@ au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest se
 au BufRead,BufNewFile *.md set encoding=utf-8 filetype=vimwiki fileencoding=utf-8 tw=80
 
 fun s:vwikisyn()
-    syn match pluses "^+.*+\s\+$"
-    syn match header "^[A-Z- ]\+[: ]\+$"
-    syn match details "\[.*\]\s\+$"
     syn match dry /is able to\|in order to\|so that\|red flag/
-    hi def link pluses String
-    hi def link header Identifier
-    hi def link details Statement
     hi def link dry Error
 endfun
 
@@ -240,19 +232,6 @@ set winminheight=0
 nmap <Leader>j <C-w>j<C-w>_
 nmap <Leader>k <C-w>k<C-w>_
 
-" ResizeFont {{{
-nmap <Leader>2 :silent! let &guifont = substitute(
- \ &guifont,
- \ ':h\zs\d\+',
- \ '\=eval(submatch(0)+1)',
- \ '')<CR>
-nmap <Leader>1 :silent! let &guifont = substitute(
- \ &guifont,
- \ ':h\zs\d\+',
- \ '\=eval(submatch(0)-1)',
- \ '')<CR>
-" }}}
-
 " Maximize (:only) with Save/Restore split configuration: {{{
 " http://vim.wikia.com/wiki/Maximize_window_and_return_to_previous_split_structure
 nnoremap <C-W>O :call MaximizeToggle()<CR>
@@ -308,13 +287,6 @@ endfunction
 command! Bdon :silent call Bdeleteonly()
 command! Bdonly :silent call Bdeleteonly()
 
-function! UnquoteSql()
-    exe '%s/^.\{-}"//'
-    exe '%s/"\s\{-}+//'
-    exe '%s/"\s\{-};//'
-endfunction
-command! Unq :silent call UnquoteSql()
-
 "requires sqlformat on the cli
 nnoremap <Leader>sql vip!sqlformat -r -k upper -s -<CR>
 
@@ -332,14 +304,10 @@ command! W :w !sudo tee %
 " }}}
 
 " Todo {{{
-" Make todo
-nnoremap <Leader>td i[ ]<space>
 " Mark line as done
 nnoremap <Leader>tx :s/\(\s*[-+*]\?\s*\)\[ \]/\1[x]/ <Bar> :noh<cr>
 " Mark line as undone
 nnoremap <Leader>tu :s/\(\s*[-+*]\?\s*\)\[x\]/\1[ ]/ <Bar> :noh<cr>
-" Grep for todos
-nnoremap <Leader>gt :vimgrep /\[ \]/ % <Bar> cw<CR>
 " Remove todo
 nnoremap <Leader>tr :s/\[ \] // <Bar> :noh<CR>
 " }}}
