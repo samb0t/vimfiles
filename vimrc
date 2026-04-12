@@ -8,13 +8,13 @@ let mapleader=";"
 " Look and feel {{{
 set fileformat=unix
 set fileformats=unix
+set nocompatible
 filetype plugin indent on
 syntax on
 set hlsearch
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set autoindent
-set nocompatible
 set ignorecase
 set smartcase
 set background=dark
@@ -33,6 +33,7 @@ set clipboard=unnamed " y is "+y by default for easier copy/paste
 set ttimeoutlen=2 " helps escape from insert faster when in terminal
 set modelines=1
 set modeline
+set autochdir " this will set the current directory for the file that is opened
 " linenum in netrw
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " }}}
@@ -187,7 +188,6 @@ augroup vwiki_syn
   autocmd Syntax vimwiki call s:vwikisyn()
 augroup end
 
-au BufEnter,BufNew *.md nnoremap <Leader>pd :let @+ ='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> ' .system("pandoc -t html " .  shellescape(expand("%:p")))<CR>
 au BufRead,BufNewFile *.cshtml set filetype=html
 au BufRead,BufNewFile *.csx set filetype=cs
 au BufRead,BufNewFile *.mmd set filetype=sequence
@@ -429,7 +429,7 @@ function! CompileLilyPond()
     exe ":!lilypond --pdf %"
 endfunction
 au BufWritePost *.ly call CompileLilyPond()
-augroup filetypedetect
+augroup lilypond_ft
   autocmd!
   autocmd BufRead,BufNewFile *.ly set filetype=lilypond
 augroup END
