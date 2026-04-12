@@ -492,15 +492,12 @@ endtry
 " }}}
 
 " Plugins {{{
-call pathogen#infect()
-call pathogen#helptags()
-
 " Load installed MatchIt plugin
 " % to find matching tags in markup
 source $VIMRUNTIME/macros/matchit.vim
 " }}}
 
-" Post-pathogen infect {{{
+" Conditional GUI config {{{
 if has("gui_running")
 	colorscheme solarized
     set encoding=utf-8
