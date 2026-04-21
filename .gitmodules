@@ -1,61 +1,61 @@
 [submodule "bundle/vim-javascript"]
-	path = bundle/vim-javascript
+	path = pack/plugins/start/vim-javascript
 	url = https://github.com/pangloss/vim-javascript.git
 [submodule "bundle/vim-less"]
-	path = bundle/vim-less
+	path = pack/plugins/start/vim-less
 	url = https://github.com/groenewege/vim-less.git
 [submodule "bundle/vim-mustache-handlebars"]
-	path = bundle/vim-mustache-handlebars
+	path = pack/plugins/start/vim-mustache-handlebars
 	url = https://github.com/mustache/vim-mustache-handlebars.git
 [submodule "bundle/vim-colors-solarized"]
-	path = bundle/vim-colors-solarized
+	path = pack/plugins/start/vim-colors-solarized
 	url = git://github.com/altercation/vim-colors-solarized.git
 	ignore = dirty
 [submodule "bundle/vim-lilypond-integrator"]
-	path = bundle/vim-lilypond-integrator
+	path = pack/plugins/start/vim-lilypond-integrator
 	url = https://github.com/gisraptor/vim-lilypond-integrator.git
 [submodule "bundle/vim-repeat"]
-	path = bundle/vim-repeat
+	path = pack/plugins/start/vim-repeat
 	url = https://github.com/tpope/vim-repeat.git
 [submodule "bundle/vim-surround"]
-	path = bundle/vim-surround
+	path = pack/plugins/start/vim-surround
 	url = https://github.com/tpope/vim-surround.git
 [submodule "tabular"]
-	path = bundle/tabular
+	path = pack/plugins/start/tabular
 	url = https://github.com/godlygeek/tabular.git
 [submodule "bundle/plantuml-syntax"]
-	path = bundle/plantuml-syntax
+	path = pack/plugins/start/plantuml-syntax
 	url = https://github.com/aklt/plantuml-syntax.git
 [submodule "bundle/supertab"]
-	path = bundle/supertab
+	path = pack/plugins/start/supertab
 	url = https://github.com/ervandew/supertab.git
 [submodule "bundle/MatchTag"]
-	path = bundle/MatchTag
+	path = pack/plugins/start/MatchTag
 	url = https://github.com/gregsexton/MatchTag.git
 [submodule "bundle/vim-json"]
-	path = bundle/vim-json
+	path = pack/plugins/start/vim-json
 	url = https://github.com/elzr/vim-json.git
 [submodule "bundle/vim-renumber"]
-	path = bundle/vim-renumber
+	path = pack/plugins/start/vim-renumber
 	url = https://github.com/clarke/vim-renumber.git
 [submodule "bundle/vim-ps1"]
-	path = bundle/vim-ps1
+	path = pack/plugins/start/vim-ps1
 	url = https://github.com/PProvost/vim-ps1.git
 [submodule "bundle/vimwiki"]
-	path = bundle/vimwiki
+	path = pack/plugins/start/vimwiki
 	url = https://github.com/vimwiki/vimwiki.git
 [submodule "bundle/sqlplus.vim"]
-	path = bundle/sqlplus.vim
+	path = pack/plugins/start/sqlplus.vim
 	url = https://github.com/leucos/sqlplus.vim.git
 [submodule "bundle/vim-log-syntax"]
-	path = bundle/vim-log-syntax
+	path = pack/plugins/start/vim-log-syntax
 	url = https://github.com/samb0t/vim-log-syntax.git
 [submodule "bundle/autotag.vim"]
-	path = bundle/autotag.vim
+	path = pack/plugins/start/autotag.vim
 	url = https://github.com/craigemery/vim-autotag.git
 [submodule "bundle/copilot.vim"]
-	path = bundle/copilot.vim
+	path = pack/plugins/start/copilot.vim
 	url = https://github.com/github/copilot.vim.git
 [submodule "bundle/ale"]
-	path = bundle/ale
+	path = pack/plugins/start/ale
 	url = https://github.com/dense-analysis/ale

@@ -8,6 +8,7 @@ let mapleader=";"
 " Look and feel {{{
 set fileformat=unix
 set fileformats=unix
+set nocompatible
 filetype plugin indent on
 syntax on
 set re=0
@@ -15,7 +16,6 @@ set hlsearch
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 set autoindent
-set nocompatible
 set ignorecase
 set smartcase
 set background=dark
@@ -34,6 +34,7 @@ set clipboard=unnamed " y is "+y by default for easier copy/paste
 set ttimeoutlen=2 " helps escape from insert faster when in terminal
 set modelines=1
 set modeline
+set autochdir " this will set the current directory for the file that is opened
 " linenum in netrw
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
 " }}}
@@ -114,8 +115,6 @@ nmap <Leader>gb :call GrepBuffers("") <Bar> cw<Left><Left><Left><Left><Left><Lef
 nmap <C-S-f> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
 " edit file's current directory
 nmap <Leader>ed :e %:h<CR>
-" Open vimgrep and put the cursor in the right position
-nmap <leader>gf :vimgrep // % <Bar> cw<Left><Left><Left><Left><Left><Left><Left><Left>
 " highlight lines that do NOT contain a word
 nmap <Leader>not /^\(.*.*\)\@!.*$<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 set wildignore+=**/target/**,**/node_modules/**
@@ -173,13 +172,7 @@ au BufRead,BufNewFile *.config,*.sfdb,*.vssettings,*.csproj,*.proj,*.manifest se
 au BufRead,BufNewFile *.md set encoding=utf-8 filetype=vimwiki fileencoding=utf-8 tw=80
 
 fun s:vwikisyn()
-    syn match pluses "^+.*+\s\+$"
-    syn match header "^[A-Z- ]\+[: ]\+$"
-    syn match details "\[.*\]\s\+$"
     syn match dry /is able to\|in order to\|so that\|red flag/
-    hi def link pluses String
-    hi def link header Identifier
-    hi def link details Statement
     hi def link dry Error
 endfun
 
@@ -338,13 +331,6 @@ endfunction
 command! Bdon :silent call Bdeleteonly()
 command! Bdonly :silent call Bdeleteonly()
 
-function! UnquoteSql()
-    exe '%s/^.\{-}"//'
-    exe '%s/"\s\{-}+//'
-    exe '%s/"\s\{-};//'
-endfunction
-command! Unq :silent call UnquoteSql()
-
 "requires sqlformat on the cli
 nnoremap <Leader>sql vip!sqlformat -r -k upper -s -<CR>
 
@@ -362,14 +348,10 @@ command! W :w !sudo tee %
 " }}}
 
 " Todo {{{
-" Make todo
-nnoremap <Leader>td i[ ]<space>
 " Mark line as done
 nnoremap <Leader>tx :s/\(\s*[-+*]\?\s*\)\[ \]/\1[x]/ <Bar> :noh<cr>
 " Mark line as undone
 nnoremap <Leader>tu :s/\(\s*[-+*]\?\s*\)\[x\]/\1[ ]/ <Bar> :noh<cr>
-" Grep for todos
-nnoremap <Leader>gt :vimgrep /\[ \]/ % <Bar> cw<CR>
 " Remove todo
 nnoremap <Leader>tr :s/\[ \] // <Bar> :noh<CR>
 " }}}
@@ -459,6 +441,10 @@ function! CompileLilyPond()
     exe ":!lilypond --pdf %"
 endfunction
 au BufWritePost *.ly call CompileLilyPond()
+augroup lilypond_ft
+  autocmd!
+  autocmd BufRead,BufNewFile *.ly set filetype=lilypond
+augroup END
 " }}}
 
 " LESS {{{
@@ -483,6 +469,7 @@ let g:ale_fixers = {
             \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'yaml': ['yamllint'],
 \   'markdown': ['markdownlint'],
+\   'lilypond': ['lilypond'],
 \}
 let g:ale_markdown_markdownlint_options = '-c ~/.markdownlint.json'
 " }}}
@@ -517,15 +504,12 @@ endtry
 " }}}
 
 " Plugins {{{
-call pathogen#infect()
-call pathogen#helptags()
-
 " Load installed MatchIt plugin
 " % to find matching tags in markup
 source $VIMRUNTIME/macros/matchit.vim
 " }}}
 
-" Post-pathogen infect {{{
+" Conditional GUI config {{{
 if has("gui_running")
 	colorscheme solarized
     set encoding=utf-8
