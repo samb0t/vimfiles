@@ -10,6 +10,7 @@ set fileformat=unix
 set fileformats=unix
 filetype plugin indent on
 syntax on
+set re=0
 set hlsearch
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -187,7 +188,49 @@ augroup vwiki_syn
   autocmd Syntax vimwiki call s:vwikisyn()
 augroup end
 
-au BufEnter,BufNew *.md nnoremap <Leader>pd :let @+ ='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> ' .system("pandoc -t html " .  shellescape(expand("%:p")))<CR>
+" Conceal markdown checkboxes as emoji (reveal on cursor line)
+function! SetupCheckboxConceal()
+  " Define syntax matches with conceal
+  syntax match TodoCheckboxEmpty /\[\s\]/ conceal cchar=◻ containedin=ALL
+  syntax match TodoCheckboxDone /\[X\]/ conceal cchar=✅ containedin=ALL
+  syntax match TodoCheckboxDoneLower /\[x\]/ conceal cchar=✅ containedin=ALL
+  syntax match TodoCheckboxPartial /\[\.\]/ conceal cchar=◫ containedin=ALL
+  syntax match TodoCheckboxInProgressLower /\[o\]/ conceal cchar=⬓ containedin=ALL
+  syntax match TodoCheckboxInProgressUpper /\[O\]/ conceal cchar=▣ containedin=ALL
+  
+  " Set conceal settings
+  setlocal conceallevel=2
+  setlocal concealcursor=
+endfunction
+function! DisableCheckboxConceal()
+  " Clear the syntax matches
+  syntax clear TodoCheckboxEmpty
+  syntax clear TodoCheckboxDone
+  syntax clear TodoCheckboxDoneLower
+  syntax clear TodoCheckboxPartial
+  syntax clear TodoCheckboxInProgressLower
+  syntax clear TodoCheckboxInProgressUpper
+  
+  setlocal conceallevel=0
+endfunction
+function! ToggleCheckboxConceal()
+  if !exists('b:checkbox_conceal_enabled')
+    let b:checkbox_conceal_enabled = 0
+  endif
+  
+  if b:checkbox_conceal_enabled == 0
+    call SetupCheckboxConceal()
+    let b:checkbox_conceal_enabled = 1
+  else
+    call DisableCheckboxConceal()
+    let b:checkbox_conceal_enabled = 0
+  endif
+endfunction
+" Map to toggle conceal mode
+nnoremap <leader>cb :call ToggleCheckboxConceal()<CR>
+"" Auto-enable for text, markdown, and vimwiki files
+autocmd Syntax text,markdown,vimwiki call SetupCheckboxConceal() | let b:checkbox_conceal_enabled = 1
+
 au BufRead,BufNewFile *.cshtml set filetype=html
 au BufRead,BufNewFile *.csx set filetype=cs
 au BufRead,BufNewFile *.mmd set filetype=sequence
@@ -239,19 +282,6 @@ set undodir=~/.vimbackups//
 set winminheight=0
 nmap <Leader>j <C-w>j<C-w>_
 nmap <Leader>k <C-w>k<C-w>_
-
-" ResizeFont {{{
-nmap <Leader>2 :silent! let &guifont = substitute(
- \ &guifont,
- \ ':h\zs\d\+',
- \ '\=eval(submatch(0)+1)',
- \ '')<CR>
-nmap <Leader>1 :silent! let &guifont = substitute(
- \ &guifont,
- \ ':h\zs\d\+',
- \ '\=eval(submatch(0)-1)',
- \ '')<CR>
-" }}}
 
 " Maximize (:only) with Save/Restore split configuration: {{{
 " http://vim.wikia.com/wiki/Maximize_window_and_return_to_previous_split_structure
@@ -566,6 +596,7 @@ set statusline+=%m
 set statusline+=%=
 "set statusline+=%#CursorColumn#
 set statusline+=%#PmenuSel#
+"set statusline+=%#Question#
 set statusline+=\ %y
 set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
