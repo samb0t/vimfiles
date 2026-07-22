@@ -420,7 +420,7 @@ endif
 function! CompileUml()
 	exe ":silent make ""\"".expand("%:p")."\""
 endfunction
-au BufWritePost *.uml call CompileUml()
+au BufWritePost *.uml,*.puml call CompileUml()
 let s:makecommand=g:plantuml_executable_script." %"
 
 " define a sensible makeprg for plantuml files
