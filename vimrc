@@ -372,21 +372,20 @@ function! Fd (expression,...)
     if a:0 > 0
         let l:basedir = a:1
     endif
-    exec "call setqflist(map(systemlist('fd \"".a:expression."\" ".l:basedir."'), {_, p -> {'filename': p}}))"
+    let l:files = systemlist('fd -- ' . shellescape(a:expression) . ' ' . shellescape(l:basedir))
+    call setqflist(map(l:files, {_, p -> {'filename': p}}))
     exec "copen"
-endfunction 
+endfunction
 
-nnoremap <Leader>fd :call Fd("")<Left><Left>
+command! -nargs=+ -complete=file Fd call Fd(<q-args>)
+nnoremap <Leader>fd :Fd<Space>
 
 function! Rg (expression,...)
     let l:basedir = TagDir()
     if a:0 > 0
         let l:basedir = a:1
-        echo l:basedir
     endif
-
-    echo l:basedir
-    let l:output = system("rg --vimgrep --smart-case '".a:expression."' ".l:basedir."")
+    let l:output = system('rg --vimgrep --smart-case ' . shellescape(a:expression) . ' ' . shellescape(l:basedir))
     let l:list = split(l:output, "\n")
     let l:ql = []
     for l:item in l:list
@@ -396,9 +395,10 @@ function! Rg (expression,...)
     endfor
     call setqflist(l:ql, 'r')
     exec "copen"
-endfunction 
+endfunction
 
-nnoremap <Leader>rg :call Rg("")<Left><Left>
+command! -nargs=+ Rg call Rg(<q-args>)
+nnoremap <Leader>rg :Rg<Space>
 
 " }}} FindFiles
 
