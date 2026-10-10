@@ -447,6 +447,21 @@ augroup lilypond_ft
 augroup END
 " }}}
 
+" Typst {{{
+function! CompileTypst(path) abort
+    let l:output = system('typst compile ' . shellescape(a:path))
+    if v:shell_error
+        echohl ErrorMsg
+        echomsg l:output
+        echohl None
+    endif
+endfunction
+augroup typst_compile
+    autocmd!
+    autocmd BufWritePost *.typ call CompileTypst(expand('<afile>:p'))
+augroup END
+" }}}
+
 " LESS {{{
 "requires node.js and lessc
 function! CompileLess()

@@ -59,3 +59,6 @@
 [submodule "bundle/ale"]
 	path = pack/plugins/start/ale
 	url = https://github.com/dense-analysis/ale
+[submodule "pack/plugins/start/typst"]
+	path = pack/plugins/start/typst
+	url = https://github.com/kaarmu/typst.vim.git
